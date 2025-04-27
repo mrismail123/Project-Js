@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styleExams.css">
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css.map">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&family=Cairo:wght@200..1000&family=Epilogue:ital,wght@0,100..900;1,100..900&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Karla:ital,wght@0,200..800;1,200..800&family=Kumbh+Sans:wght@100..900&family=Lexend+Deca:wght@100..900&family=Montserrat+Underline:ital,wght@0,100..900;1,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Outfit:wght@100..900&family=PT+Sans+Narrow:wght@400;700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+        <div class="container-fluid">
+            <i class="true nav fa-solid fa-bars text-white"></i>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Basculer la navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active home" aria-current="page" href="examsPage.html">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Lien</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Menu déroulant
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Autre action</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Quelque chose d'autre ici</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center gap-4 image">
+                    <h3 style="text-transform: uppercase;color: rgb(255, 255, 255);">phantom school</h3>
+                    <a href="index.html">
+                        <img style="max-width: 100%;width: 90px;background-color: white;border-radius: 10px;" src="./photos/l.png" alt="">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="sideBar">
+        <div class="imageUser">
+            <img src="./photos/unknown.webp" alt="">
+            <h2>Bonjour unknown</h2>
+        </div>
+        <div class="choose one">
+            <img src="./photos/test.png" alt="">
+            <p>Importer votre examen directement</p>
+        </div>
+        <div class="choose two">
+            <img src="./photos/arrows.png" alt="">
+            <p>Créer un examen QCM</p>
+        </div>
+    </div>
+
+    <div class="sections">
+        <div class="container-fluid intro">
+            <div class="text">
+                <h2>Bonjour unknown</h2>
+                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ducimus pariatur hic doloribus officia neque voluptates, quibusdam doloremque! Quod natus ea incidunt aliquam consequatur sit dicta, totam magni doloribus magnam impedit.</p>
+                <button>Commencer la création</button>
+            </div>
+            <div class="image">
+                <img src="./photos/study.jpg" alt="">
+            </div>
+        </div>
+        <div class="uploadStart">
+            <h1 style="text-align: center;">Page pas encore créée</h1>
+        </div>
+        <div class="createExam">
+            <div class="globalExamInformations">
+                <div class="text">
+                    <h3>Mr Ismail, pour commencer à créer l'examen, veuillez remplir les informations de l'examen dans ce formulaire</h3>
+                    <p>
+                        Vous devez indiquer le nom de l'examen ainsi que le groupe ciblé.  
+                        Une fois soumis, un lien sera généré pour que vos étudiants puissent y accéder.
+                    </p>
+                </div>
+                <form class="examForm">
+                    <h4>Création d'un Examen</h4>
+                    <label for="examTitle">*Titre</label><br>
+                    <input type="text" name="examName" placeholder="ex. Examen Javascript" required autofocus minlength="5" maxlength="35"><br><br>
+                    <label for="examDescription">*Public ciblé</label><br>
+                    <textarea name="examDescription" id="examDescription" placeholder="ex., 2ᵉ année MIP, Groupe A" required></textarea><br><br>
+                    <button type="submit">Soumettre l'examen</button>
+                    <p>Lien vers l'examen : <span class="linkToExam">pas encore généré</span></p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="examsBehaviour.js"></script>
+</body>
+</html>
