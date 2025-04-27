@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr"> <!-- changé en fr -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style2.css">
+    <link rel="stylesheet" href="css/all.min.css">
+    <title>Phantom School</title> <!-- meilleur titre -->
+</head>
+<body>
+    <!-- début header -->
+    <div class="header">
+        <div class="logo">
+            <img src="./photos/l.png" alt="Logo Phantom School">
+            <a href="index.html">
+                <h1>phantom school</h1>
+            </a>
+        </div>
+        <div class="nav">
+            <ul>
+                <li><a href="index.html">accueil</a></li> <!-- traduit -->
+                <li><a href="index.html#service">services</a></li>
+                <li><a href="index.html#team">équipe</a></li>
+                <li><a href="index.html#about">à propos</a></li>
+                <li class="lastBefore"><a href="index.html#contact">contact</a></li>
+                <li><i class="fa-solid fa-magnifying-glass"></i></li>
+            </ul>
+        </div>
+    </div>
+    <!-- fin header -->
+
+
+    <!-- début section landing -->
+    <div class="landing">
+        <form action="examsPage2.html" method="post">
+            <div class="prenomNom">
+                <div class="nom">
+                    Nom :
+                    <input type="text" name="nom" autofocus required>
+                </div> 
+                <div class="prenom">
+                    Prénom :
+                    <input type="text" name="prenom" required>
+                </div>
+            </div>
+            
+            Email :
+            <input type="email" name="email" class="email" required>
+
+            Établissement :
+            <input type="text" name="etablissement" class="etablissement" required>
+
+            Date de naissance :
+            <input class="date" type="date" name="date" required>
+
+            <div class="selects">
+                Filière :
+                <select class="filiere" name="fil" required>
+                    <option value="smi">SMI</option>
+                    <option value="sma">SMA</option>
+                    <option value="smp">SMP</option>
+                    <option value="smc">SMC</option>
+                    <option value="bcg">BCG</option>
+                </select>
+
+                Genre :
+                <select class="gender" name="gender" required>
+                    <option value="homme">Homme</option>
+                    <option value="femme">Femme</option>
+                </select>
+            </div>
+
+            <input class="submit" type="submit" value="Envoyer">
+        </form>
+    </div>
+    <!-- fin section landing -->
+
+    <script src="consoleForm2.js"></script>
+</body>
+</html>
