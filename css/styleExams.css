@@ -10,8 +10,8 @@ body {
     -webkit-box-sizing:border-box;
 }
 
-.navbar {
-}
+
+
 
 .navbar a {
     color: white !important;
@@ -21,12 +21,6 @@ div.container-fluid i {
     padding-right: 10px;
     font-size:20px;
 }
-
-/* .sections {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-} */
 
 
 .sideBar {
@@ -173,8 +167,7 @@ div.createExam .globalExamInformations > div {
     flex-basis: 45%;
 }
 
-div.createExam .text {
-}
+
 
 div.createExam .text h3 {
     line-height: 1.9;
@@ -193,7 +186,7 @@ div.createExam .text p {
 }
 
 
-div.createExam form {
+div.createExam .globalExamInformations form {
     max-width: 100%;
     width: 400px;
     padding: 20px;
@@ -202,13 +195,14 @@ div.createExam form {
     margin-bottom: 30px;
 }
 
-div.createExam form input ,
-div.createExam form textarea {
+div.createExam  form input ,
+div.createExam  form textarea,
+div.createExam  form select {
     width: 100%;
     padding: 10px;
 }
 
-div.createExam form button {
+div.createExam  form button {
     width: 100%;
     padding: 10px 0;
     background-color: rgb(52, 213, 52);
@@ -218,14 +212,14 @@ div.createExam form button {
 }
 
 
-div.createExam form  p ,
+div.createExam .globalExamInformations form  p ,
 div.createExam form h4 {
     text-align: center;
     margin: 10px 0 0;
 }
 
 
-div.createExam form  p span {
+div.createExam .globalExamInformations form  p span {
     text-decoration: underline;
     color: dodgerblue;
     cursor: pointer;
@@ -257,3 +251,402 @@ div.createExam form  p span {
 
 
 /* end mcq exams */
+
+/* start startExamSettings */
+
+.startExamSettings {
+    display: flex;
+    justify-content: space-around;
+    min-height: 100vh;
+    margin: 20px;
+}
+
+div.createExam  form input#ajoutFile {
+    border: 1px solid #868686;
+}
+
+div.createExam .startExamSettings form {
+    max-width: 100%;
+    width: 500px;
+    padding: 20px;
+    box-shadow: 3px 3px 5px rgb(222, 220, 220) , 
+                -3px -3px 5px rgb(222, 220, 220);
+    margin-bottom: 30px;
+}
+
+div.createExam .startExamSettings form h1 {
+    text-align: center;
+    font-size: 2.2rem;
+    text-shadow: 2px 2px 2px rgb(255, 255, 255) , 
+    -2px -2px 2px rgb(200, 200, 200);
+}
+
+div.createExam .startExamSettings .image {
+    overflow: hidden;
+    animation: upDown 3s  ease-in-out infinite alternate-reverse ;
+}
+
+@keyframes upDown {
+    from {
+        transform: translateY(20px);
+    }
+    to {
+        transform: translateY(-10px);
+    }
+}
+
+div.createExam .startExamSettings .image img {
+    max-width: 100%;
+    width: 600px;
+}
+
+div.createExam .questions,
+div.createExam .exams {
+    position: relative;
+    max-width: 100%;
+    padding: 20px;
+    /* background-color: red; */
+    box-shadow: 3px 3px 5px rgb(222, 220, 220) , 
+    -3px -3px 5px rgb(222, 220, 220);
+    margin-bottom: 30px;
+}
+
+div.createExam .questions h4,
+div.createExam .exams h4 {
+    font-size: 2.2rem;
+    text-shadow: 2px 2px 2px rgb(255, 255, 255) , 
+    -2px -2px 2px rgb(200, 200, 200);
+    /* background-color: red; */
+}
+
+div.createExam .questions p,
+div.createExam .questions h4,
+div.createExam .exams p,
+div.createExam .exams h4 {
+    text-align: center;    
+}
+
+div.createExam .questions .addedQuestions,
+div.createExam .exams .addedExams {
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(350px,1fr));
+    gap: 10px;
+}
+
+div.createExam .questions .addedQuestions div {
+    padding: 15px;
+    border: 3px solid black;
+    background-color: #eee;
+}
+
+div.createExam .questions .addedQuestions div button:first-of-type {
+    background-color: rgb(221, 14, 14);
+}
+
+div.createExam .questions .addedQuestions div button:last-of-type {
+    background-color: rgb(43, 47, 77);
+}
+
+div.createExam .questions .addedQuestions div button {
+    padding: 10px 25px;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+}
+
+div.createExam .questions .addedQuestions div h5:first-child {
+    text-align: center;
+    font-weight: bold;
+    color: dodgerblue;
+}
+
+div.createExam .questions .addedQuestions div h5.choice1,
+div.createExam .questions .addedQuestions div h5.choice2,
+div.createExam .questions .addedQuestions div h5.choice3,
+div.createExam .questions .addedQuestions div h5.choice4 {
+    color: #1a1a1a;
+    padding: 10px;
+    background-color: white;
+    border-radius: 5px;
+}
+
+
+
+
+
+
+div.createExam .exams .addedExams div {
+    padding: 15px;
+}
+
+div.createExam  .startExamSettings form button {
+    background-color: #1a1a1a;
+}
+
+
+/* end startExamSettings */
+
+
+/* start added exam*/
+
+.exam {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.exam h5 {
+    margin: 0 0 10px;
+    color: #333;
+    font-weight: bold;
+}
+
+.exam p {
+    margin: 0;
+    color: #666;
+}
+
+/* end added exam*/
+
+
+.examFormWrapper input:first-of-type {
+    width: 100%;
+    padding: 10px;
+}
+
+form input,
+form textarea,
+form select {
+    width: 100%;
+    padding: 10px;
+}
+
+form button {
+    width: 100%;
+    padding: 10px 0;
+    background-color: rgb(52, 213, 52);
+    color: white;
+    font-weight: bold;
+    border: none;
+}
+
+
+.startExamSettings {
+    display: none;
+    justify-content: space-around;
+    min-height: 100vh;
+    margin: 20px;
+}
+
+@media (max-width:1165px) {
+    .startExamSettings {
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+    .startExamSettings .image  {
+        display: none;
+    }
+    .startExamSettings .examFormWrapper {
+        width: 800px !important;
+    }
+}
+
+form input#ajoutFile {
+    border: 1px solid #868686;
+}
+
+.startExamSettings .examFormWrapper {
+    max-width: 100%;
+    width: 500px;
+    padding: 20px;
+    box-shadow: 3px 3px 5px rgb(222, 220, 220), 
+                -3px -3px 5px rgb(222, 220, 220);
+}
+
+.startExamSettings form {
+    margin-bottom: 20px;
+}
+
+.startExamSettings form h1 {
+    text-align: center;
+    font-size: 2.2rem;
+    text-shadow: 2px 2px 2px rgb(255, 255, 255), 
+    -2px -2px 2px rgb(200, 200, 200);
+}
+
+.startExamSettings .image {
+    overflow: hidden;
+    animation: upDown 3s  ease-in-out infinite alternate-reverse ;
+}
+
+@keyframes upDown {
+    from {
+        transform: translateY(20px);
+    }
+    to {
+        transform: translateY(-10px);
+    }
+}
+
+.startExamSettings .image img {
+    max-width: 100%;
+    width: 600px;
+}
+
+.questions,
+.exams {
+    display: none;
+    position: relative;
+    max-width: 100%;
+    padding: 20px;
+    box-shadow: 3px 3px 5px rgb(222, 220, 220), 
+    -3px -3px 5px rgb(222, 220, 220);
+    margin-bottom: 30px;
+}
+
+.questions h4,
+.exams h4 {
+    font-size: 2.2rem;
+    text-shadow: 2px 2px 2px rgb(255, 255, 255), 
+    -2px -2px 2px rgb(200, 200, 200);
+}
+
+.questions p,
+.questions h4,
+.exams p,
+.exams h4 {
+    text-align: center;    
+}
+
+.questions .addedQuestions,
+.exams .addedExams {
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(350px,1fr));
+    gap: 10px;
+}
+
+.questions .addedQuestions div {
+    padding: 20px;
+    border: 2px solid #d1d1d1;
+    background-color: #fdfdfd;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.questions .addedQuestions div:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.questions .addedQuestions div button {
+    padding: 10px 20px;
+    color: #fff;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.questions .addedQuestions div button:first-of-type {
+    background-color: #ff4d4d;
+}
+
+.questions .addedQuestions div button:first-of-type:hover {
+    background-color: #e03a3a;
+    transform: scale(1.05);
+}
+
+.questions .addedQuestions div button:last-of-type {
+    background-color: #3b5998;
+}
+
+.questions .addedQuestions div button:last-of-type:hover {
+    background-color: #2d4373;
+    transform: scale(1.05);
+}
+
+.questions .addedQuestions div h5:first-child {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #007bff;
+    margin-bottom: 15px;
+}
+
+.questions .addedQuestions div h5.choice1,
+.questions .addedQuestions div h5.choice2,
+.questions .addedQuestions div h5.choice3,
+.questions .addedQuestions div h5.choice4 {
+    color: #333;
+    padding: 12px 15px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-bottom: 8px;
+}
+
+.exams .addedExams .exam {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+}
+
+.exams .addedExams .exam h5 {
+    font-weight: bold;
+    color: #333;
+}
+
+.exams .addedExams .exam p {
+    color: #666;
+    margin: 5px 0;
+}
+
+.exams .addedExams .exam .examQuestions {
+    margin-top: 15px;
+    padding-left: 10px;
+    border-left: 2px solid #007bff;
+}
+
+.startExamSettings form button {
+    background-color: #111;
+    color: #fff;
+    font-weight: bold;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.startExamSettings form button:hover {
+    background-color: #333;
+    transform: scale(1.05);
+}
+
+#submitExamButton {
+    width: 100%;
+    padding: 12px 24px;
+    background-color: #007bff;
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#submitExamButton:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
