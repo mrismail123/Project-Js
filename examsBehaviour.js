@@ -204,3 +204,307 @@ function updateOptions() {
 
 // écouter le changement de type de question
 questionType.addEventListener("change", updateDynamicFields);
+
+
+
+examSettingForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    if (questionType.value === "notSelected" || !questionType.value) {
+        alert("Please select a valid question type.");
+        return;
+    }
+
+    if (questionTotalNumber > 20 && !editingQuestionId) {
+        alert("Sorry, you can't add more than 20 questions!");
+        return;
+    }
+
+    let questionId = editingQuestionId || questionTotalNumber;
+    let addQuestionsSectionDiv = document.createElement("div");
+
+    let questionInformation = {
+        Question: examSettingForm.questionText.value,
+        Type: questionType.value,
+        correct_answer: examSettingForm.answer?.value || "",
+        assosiated_files: examSettingForm.fileAttachement.files[0]?.name || "None",
+        mark: examSettingForm.note.value,
+        duration: examSettingForm.duration.value + ' seconds',
+    };
+
+    if (questionType.value === "QCM") {
+        questionInformation.choice_1 = examSettingForm.choice_1?.value || "";
+        questionInformation.choice_2 = examSettingForm.choice_2?.value || "";
+        questionInformation.choice_3 = examSettingForm.choice_3?.value || "";
+        questionInformation.choice_4 = examSettingForm.choice_4?.value || "";
+    } else if (questionType.value === "DirectQuestion") {
+        questionInformation.tolerance = examSettingForm.tolerance?.value || "0";
+    }
+
+    localStorage.setItem(`question${questionId}`, JSON.stringify(questionInformation));
+    let questionData = JSON.parse(localStorage.getItem(`question${questionId}`));
+
+    addQuestionsSectionDiv.innerHTML = `
+        <h5>Question ${questionId}: ${questionData.Question}</h5>
+        <hr>
+        <h5>Type: ${questionData.Type}</h5>
+        <hr>
+        ${questionData.Type === "QCM" ? `
+            <h5>Choice 1: ${questionData.choice_1}</h5>
+            <h5>Choice 2: ${questionData.choice_2}</h5>
+            <h5>Choice 3: ${questionData.choice_3 || "not selected"}</h5>
+            <h5>Choice 4: ${questionData.choice_4 || "not selected"}</h5>
+            <hr>
+        ` : ""}
+        <h5>Correct answer: ${questionData.correct_answer}</h5>
+        ${questionData.Type === "DirectQuestion" ? `<h5>Tolerance: ${questionData.tolerance}%</h5><hr>` : ""}
+        <h5>Associated files: ${questionData.assosiated_files}</h5>
+        <hr>
+        <h5>Mark: ${questionData.mark}</h5>
+        <hr>
+        <h5>Duration: ${questionData.duration}</h5>
+        <hr>
+        <button class="deleteButton" data-id="${questionId}">delete</button>
+        <button class="configButton" data-id="${questionId}">config</button>
+    `;
+
+    if (editingQuestionId) {
+        let existingDiv = document.querySelector(`.addedQuestions div .configButton[data-id="${questionId}"]`)?.closest("div");
+        if (existingDiv) {
+            existingDiv.replaceWith(addQuestionsSectionDiv);
+        }
+        editingQuestionId = null;
+    } else {
+        addQuestionsSection.appendChild(addQuestionsSectionDiv);
+        questionTotalNumber++;
+    }
+
+    // Add event listeners to buttons
+    addQuestionsSectionDiv.querySelector(".deleteButton").addEventListener("click", (e) => {
+        const id = e.target.dataset.id;
+        localStorage.removeItem(`question${id}`);
+        e.target.closest("div").remove();
+    });
+
+    addQuestionsSectionDiv.querySelector(".configButton").addEventListener("click", (e) => {
+        const id = e.target.dataset.id;
+        const question = JSON.parse(localStorage.getItem(`question${id}`));
+        if (!question) return;
+
+        examSettingForm.questionText.value = question.Question;
+        questionType.value = question.Type;
+        updateDynamicFields();
+        if (question.Type === "QCM") {
+            examSettingForm.choice_1.value = question.choice_1;
+            examSettingForm.choice_2.value = question.choice_2;
+            examSettingForm.choice_3.value = question.choice_3 || "";
+            examSettingForm.choice_4.value = question.choice_4 || "";
+            updateOptions();
+            examSettingForm.answer.value = question.correct_answer;
+        } else if (question.Type === "DirectQuestion") {
+            examSettingForm.answer.value = question.correct_answer;
+            examSettingForm.tolerance.value = question.tolerance || "0";
+        }
+        examSettingForm.note.value = question.mark;
+        examSettingForm.duration.value = parseInt(question.duration);
+        editingQuestionId = id;
+    });
+
+    examSettingForm.reset();
+    updateDynamicFields();
+});
+
+// Submit Exam button handler
+submitExamButton.addEventListener("click", () => {
+    let examName = document.querySelector("input[name='examName']").value.trim();
+    if (!examName) {
+        alert("Please enter an exam name.");
+        return;
+    }
+    document.querySelector("input[name='examName']").value='';
+
+    let questions = [];
+    for (let i = 1; i <= 20; i++) {
+        let questionData = localStorage.getItem(`question${i}`);
+        if (questionData) {
+            questions.push(JSON.parse(questionData));
+        }
+    }
+
+    if (questions.length === 0) {
+        alert("No questions added for this exam.");
+        return;
+    }
+
+    let examId = 1;
+    while (localStorage.getItem(`exam${examId}`)) {
+        examId++;
+    }
+
+    let exam = {
+        name: examName,
+        questions: questions
+    };
+
+    fetch("serverName", { // ajouter le server Ici @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        method: "post",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(exam),
+    })
+    .then((response)=> response.json())
+    .then((data)=>{
+        console.log(data);
+    })
+    .catch((error)=>{
+        alert("there was a problem sending the data to the server !");
+    })
+
+    localStorage.setItem(`exam${examId}`, JSON.stringify(exam));
+
+    let examDiv = document.createElement("div");
+    examDiv.classList.add("exam");
+    let questionsHTML = questions.map((q, index) => `
+        <h5>Question ${index + 1}: ${q.Question}</h5>
+        <p>Type: ${q.Type}</p>
+        ${q.Type === "QCM" ? `
+            <p>Choice 1: ${q.choice_1}</p>
+            <p>Choice 2: ${q.choice_2}</p>
+            <p>Choice 3: ${q.choice_3 || "not selected"}</p>
+            <p>Choice 4: ${q.choice_4 || "not selected"}</p>
+        ` : ""}
+        <p>Correct answer: ${q.correct_answer}</p>
+        ${q.Type === "DirectQuestion" ? `<p>Tolerance: ${q.tolerance}%</p>` : ""}
+        <p>Associated files: ${q.assosiated_files}</p>
+        <p>Mark: ${q.mark}</p>
+        <p>Duration: ${q.duration}</p>
+        <hr>
+    `).join("");
+
+    examDiv.innerHTML = `
+        <h5>Exam: ${exam.name}</h5>
+        <p>Number of questions: ${questions.length}</p>
+        <div class="examQuestions">${questionsHTML}</div>
+    `;
+    addedExamsSection.appendChild(examDiv);
+
+    // Clear questions
+    for (let i = 1; i <= 20; i++) {
+        localStorage.removeItem(`question${i}`);
+    }
+    addQuestionsSection.innerHTML = '';
+    examSettingForm.reset();
+    updateDynamicFields();
+    questionTotalNumber = 1;
+    examNameInput.value = '';
+    examTitle.textContent = "unknown";
+});
+
+// Load existing data on page load
+window.addEventListener("DOMContentLoaded", () => {
+    for (let i = 1; i <= 20; i++) {
+        let questionData = localStorage.getItem(`question${i}`);
+        if (!questionData) break;
+        let question = JSON.parse(questionData);
+        let addQuestionsSectionDiv = document.createElement("div");
+
+        addQuestionsSectionDiv.innerHTML = `
+            <h5>Question ${i}: ${question.Question}</h5>
+            <hr>
+            <h5>Type: ${question.Type}</h5>
+            <hr>
+            ${question.Type === "QCM" ? `
+                <h5>Choice 1: ${question.choice_1}</h5>
+                <h5>Choice 2: ${question.choice_2}</h5>
+                <h5>Choice 3: ${question.choice_3 || "not selected"}</h5>
+                <h5>Choice 4: ${question.choice_4 || "not selected"}</h5>
+                <hr>
+            ` : ""}
+            <h5>Correct answer: ${question.correct_answer}</h5>
+            ${question.Type === "DirectQuestion" ? `<h5>Tolerance: ${question.tolerance}%</h5><hr>` : ""}
+            <h5>Associated files: ${question.assosiated_files}</h5>
+            <hr>
+            <h5>Mark: ${question.mark}</h5>
+            <hr>
+            <h5>Duration: ${question.duration}</h5>
+            <hr>
+            <button class="deleteButton" data-id="${i}">delete</button>
+            <button class="configButton" data-id="${i}">config</button>
+        `;
+
+        addQuestionsSection.appendChild(addQuestionsSectionDiv);
+
+        addQuestionsSectionDiv.querySelector(".deleteButton").addEventListener("click", (e) => {
+            const id = e.target.dataset.id;
+            localStorage.removeItem(`question${id}`);
+            e.target.closest("div").remove();
+        });
+
+        addQuestionsSectionDiv.querySelector(".configButton").addEventListener("click", (e) => {
+            const id = e.target.dataset.id;
+            const question = JSON.parse(localStorage.getItem(`question${id}`));
+            if (!question) return;
+
+            examSettingForm.questionText.value = question.Question;
+            questionType.value = question.Type;
+            updateDynamicFields();
+            if (question.Type === "QCM") {
+                examSettingForm.choice_1.value = question.choice_1;
+                examSettingForm.choice_2.value = question.choice_2;
+                examSettingForm.choice_3.value = question.choice_3 || "";
+                examSettingForm.choice_4.value = question.choice_4 || "";
+                updateOptions();
+                examSettingForm.answer.value = question.correct_answer;
+            } else if (question.Type === "DirectQuestion") {
+                examSettingForm.answer.value = question.correct_answer;
+                examSettingForm.tolerance.value = question.tolerance || "0";
+            }
+            examSettingForm.note.value = question.mark;
+            examSettingForm.duration.value = parseInt(question.duration);
+            editingQuestionId = id;
+        });
+    }
+
+    for (let i = 1; i <= 20; i++) {
+        if (!localStorage.getItem(`question${i}`)) {
+            questionTotalNumber = i;
+            break;
+        }
+    }
+
+    let examId = 1;
+    while (true) {
+        let examData = localStorage.getItem(`exam${examId}`);
+        if (!examData) break;
+        let exam = JSON.parse(examData);
+        let examDiv = document.createElement("div");
+        examDiv.classList.add("exam");
+        let questionsHTML = exam.questions.map((q, index) => `
+            <h5>Question ${index + 1}: ${q.Question}</h5>
+            <p>Type: ${q.Type}</p>
+            ${q.Type === "QCM" ? `
+                <p>Choice 1: ${q.choice_1}</p>
+                <p>Choice 2: ${q.choice_2}</p>
+                <p>Choice 3: ${q.choice_3 || "not selected"}</p>
+                <p>Choice 4: ${q.choice_4 || "not selected"}</p>
+            ` : ""}
+            <p>Correct answer: ${q.correct_answer}</p>
+            ${q.Type === "DirectQuestion" ? `<p>Tolerance: ${q.tolerance}%</p>` : ""}
+            <p>Associated files: ${q.assosiated_files}</p>
+            <p>Mark: ${q.mark}</p>
+            <p>Duration: ${q.duration}</p>
+            <hr>
+        `).join("");
+
+        examDiv.innerHTML = `
+            <h5>Exam: ${exam.name}</h5>
+            <p>Number of questions: ${exam.questions.length}</p>
+            <div class="examQuestions">${questionsHTML}</div>
+        `;
+        addedExamsSection.appendChild(examDiv);
+        examId++;
+    }
+});
+
+
