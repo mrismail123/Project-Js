@@ -120,6 +120,10 @@
           <div id="qcmOption"></div>
           <label for="ajoutFile">*Ajouter un fichier</label><br>
           <input type="file" name="fileAttachement" id="ajoutFile" accept="image/*,audio/*,video/*"><br><br>
+            <label for="note">*Note attribuée</label><br>
+            <input type="number" name="note" id="note" placeholder="ex. 10" min="10" max="20" required><br><br>
+            <label for="duration">*Durée</label><br>
+            <input type="number" name="duration" id="duration" placeholder="en secondes" required min="10" max="30"><br><br>
           <button type="submit">Ajouter la question</button>
         </form>
         <button id="submitExamButton">Soumettre l'examen</button>
