@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="fr"> <!-- changé en fr -->
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style2.css">
     <link rel="stylesheet" href="css/all.min.css">
-    <title>Phantom School</title> <!-- meilleur titre -->
+    <title>Phantom School</title>
 </head>
 <body>
     <!-- début header -->
@@ -18,7 +18,7 @@
         </div>
         <div class="nav">
             <ul>
-                <li><a href="index.html">accueil</a></li> <!-- traduit -->
+                <li><a href="index.html">accueil</a></li>
                 <li><a href="index.html#service">services</a></li>
                 <li><a href="index.html#team">équipe</a></li>
                 <li><a href="index.html#about">à propos</a></li>
@@ -31,7 +31,27 @@
     
     <!-- début section landing -->
     <div class="landing">
-        <form action="examsPage.html" method="post" target="_blank" >
+        <div id="loginSection" class="login-section">
+            <div class="left-text">
+                <h2>Phantom School</h2>
+                <p>Connectez-vous pour accéder à votre tableau de bord d'apprentissage personnalisé et poursuivre votre parcours éducatif.</p>
+            </div>
+            <div class="right-form">
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="loginEmail">Email :</label>
+                        <input type="email" id="loginEmail" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Mot de passe :</label>
+                        <input type="password" id="loginPassword" name="password" required>
+                    </div>
+                    <button type="submit">ENVOYER</button>
+                </form>
+                <p style="margin-top: 20px;">Pas de compte ? <a style="color: rgb(255, 255, 255);font-weight: bold;" href="#" id="switchToSignup">Cliquez ici pour vous inscrire</a></p>
+            </div>
+        </div>
+        <form id="newAccountForm" action="examsPage.html" method="post" target="_blank">
             <div class="prenomNom">
                 <div class="nom">
                     Nom :
@@ -42,16 +62,20 @@
                     <input class="prenom" type="text" name="prenom" required>
                 </div>
             </div>
-            
-            Email :
-            <input type="email" name="email" class="email" required>
-            
+            <div style="display: flex;" class="emailPassword">
+                <div class="email">
+                    Email :
+                    <input type="email" name="email" class="email" required>
+                </div>
+                <div class="password">
+                    mote de passe:
+                    <input type="password" name="password" class="password" required>
+                </div>
+            </div>
             Établissement :
             <input type="text" name="etablissement" class="etablissement" required>
-
             Date de naissance :
             <input class="date" type="date" name="date" required>
-            
             <div class="selects">
                 Filière :
                 <select class="filiere" name="fil" required>
@@ -61,15 +85,14 @@
                     <option value="smc">SMC</option>
                     <option value="bcg">BCG</option>
                 </select>
-                
                 Genre :
                 <select class="gender" name="gender" required>
                     <option value="homme">Homme</option>
                     <option value="femme">Femme</option>
                 </select>
             </div>
-            
             <input class="submit" type="submit" value="Envoyer">
+            <p style="margin-top: 20px;">vous avez un compte ?<a style="color: rgb(255, 255, 255);font-weight: bold;" href="#" id="switchTologIn"> Cliquez ici pour log in</a></p>
         </form>
     </div>
     <!-- fin section landing -->

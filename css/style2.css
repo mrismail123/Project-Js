@@ -1,27 +1,22 @@
 body {
     font-family: sans-serif;
-    
 }
 /* start global values */
-
 * {
     box-sizing: border-box;
-    -webkit-box-sizing: border-box ;
+    -webkit-box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
-
 html {
     scroll-behavior: smooth;
 }
-
 ul {
     list-style: none;
     position: relative;
     margin-top: 15px;
     margin-bottom: 15px;
 }
-
 .header ul li {
     display: inline;
     padding-left: 15px;
@@ -30,8 +25,7 @@ ul {
     font-size: 1.2rem;
     font-weight: bold;
 }
-
-@media (max-width:530px){
+@media (max-width:530px) {
     ul li:last-child {
         display: none;
     } 
@@ -39,30 +33,24 @@ ul {
         padding-right: 25px;
     }
     ul li {
-        font-size: 1rem ;
+        font-size: 1rem;
     }
 }
-
-.header ul li:last-child{
+.header ul li:last-child {
     padding-right: 25px;
 }
-
-.header  li:last-child i {
+.header li:last-child i {
     border-left: 3px solid black;
     padding-left: 15px;
 }
-
 ul li a:hover {
     color: dodgerblue;
 }
-
 a {
     text-decoration: none;
     color: black;
 }
-
 /* start header */
-
 .header {
     position: relative;
     z-index: 1000;
@@ -72,23 +60,19 @@ a {
     align-items: center;
     text-transform: capitalize;
 }
-
 .header .logo img {
     max-width: 100%;
     width: 140px;
 }
-
 .header .logo {
     display: flex;
     align-items: center;
 }
-
 .header .logo h1 {
     text-shadow: 2px 2px 1px rgb(54, 52, 52);
 }
-
 @media (max-width:913px) {
-    .header  {
+    .header {
         justify-content: center;
         flex-direction: column;
     }
@@ -98,15 +82,10 @@ a {
     .header .logo img {
         margin-inline-start: -40px;
     }
-
     .header ul li a {
         font-size: 0.9rem;
     }
 }
-
-
-
-
 @media (max-width:408px) {
     .header ul li a {
         font-size: 0.75rem;
@@ -114,19 +93,14 @@ a {
     .header .logo h1 {
         font-size: 1.5rem;
     }
-    .header .logo img  {
+    .header .logo img {
         width: 100px;
     }
 }
-
-
 /* end header */
-
-
 /* start landing */
-
 .landing {
-    min-height:calc(100vh - 140px);
+    min-height: calc(100vh - 140px);
     background-image: url("../photos/landing3.jpg");
     background-position: center;
     background-repeat: no-repeat;
@@ -136,37 +110,36 @@ a {
     justify-content: center;
     align-items: center;
 }
-
 .landing::before {
     content: "";
     position: absolute;
-    z-index:0;
+    z-index: 0;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.456);
 }
-
-.landing form {
+.landing form#newAccountForm {
     border-radius: 5px;
-    position: absolute;
     padding: 30px;
     background-color: rgba(255, 255, 255, 0.6);
+    position: absolute; /*removed to allow flex centering*/
 }
-
 .landing form input {
     margin-bottom: 10px;
     padding: 10px;
 }
-
 .landing form select {
     width: 100%;
     padding: 10px; 
     margin-bottom: 10px;
 }
-
-.landing form > div:not(div.selects){
+.landing form > div:not(div.selects) {
     display: flex;
     gap: 10px;
+}
+
+.landing .right-form  form > div{
+    display:block !important;
 }
 
 .landing form input {
@@ -174,7 +147,6 @@ a {
     max-width: 100%;
     width: 100%;
 }
-
 form input.submit {
     margin-top: 10px;
     background-color: rgba(0, 0, 0, 0.685);
@@ -183,7 +155,81 @@ form input.submit {
     color: white;
     border-radius: 5px;
 }
+#newAccountForm {
+    display: none;
+}
+#loginSection {
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.6);
+    padding: 30px;
+    border-radius: 5px;
+    /* width: 80%; */
+    /* max-width: 800px; */
+    max-width: 100%;
+    width: 1300px;
+    padding: 60px;
+}
+.left-text {
+    flex: 1;
+    padding-right: 20px;
+}
 
-/* end landing */
+.left-text h2 {
+    font-size: 3rem;
+    color: white;
+}
+.left-text p {
+    line-height: 1.7;
+    font-size: 1.6rem;
+    color: #333;
+}
 
-
+.right-form {
+    flex: 1;
+}
+#loginForm .form-group {
+    margin-bottom: 15px;
+}
+#loginForm label {
+    display: block;
+    margin-bottom: 5px;
+}
+#loginForm input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+#loginForm button {
+    width: 100%;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.685);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+@media (max-width: 768px) {
+    #loginSection {
+        flex-direction: column;
+    }
+    .left-text {
+        padding-right: 0;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    .left-text h2 {
+        font-size: 1.8rem;
+    }
+    .left-text p {
+        font-size: 1.2rem;
+        line-height: 1.5;
+    }
+    #switchToSignup , #switchTologIn {
+        display: block;
+        text-align: center;
+    }
+}
