@@ -2,26 +2,22 @@ const Resultat = require("../models/Result");
 const Question = require("../models/Question");
 const { calculerScore } = require("../utils/scoreCalculator");
 
-// Enregistrer le résultat après soumission
 exports.enregistrerResultat = async (req, res) => {
   try {
-    const { examenId, reponses, geoLocation } = req.body;
+    const { examenId, reponses } = req.body;
 
     if (!examenId || !reponses) {
       return res.status(400).json({ message: "Examen et réponses requis." });
     }
 
-    // Récupérer toutes les questions liées à l'examen
     const questions = await Question.find({ examenId });
-
-    // Calcul du score
     const score = calculerScore(questions, reponses);
 
     const nouveauResultat = new Resultat({
-      examenId,
       etudiantId: req.user.id,
+      examenId,
       score,
-      geoLocation
+      geoLocation: req.geoLocation // <-- ici on enregistre les coordonnées
     });
 
     await nouveauResultat.save();
