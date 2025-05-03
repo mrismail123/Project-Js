@@ -4,14 +4,39 @@ let userInfo = JSON.parse(localStorage.getItem("teacherData"));
 
 if(userInfo.sexe === "homme") {
     h2.forEach((el) => {
-        el.innerHTML = `Bonjour monsieur ${userInfo.nom}`;
+        el.innerHTML = `Bonjour monsieur ${userInfo.prenom}`;
         el.style.textTransform = "capitalize";
     });
 } else {
     h2.forEach((el) => {
-        el.innerHTML = `Bonjour madame ${userInfo.nom}`;
+        el.innerHTML = `Bonjour madame ${userInfo.prenom}`;
         el.style.textTransform = "capitalize";
     });
+}
+
+
+
+let spanTarhib = document.querySelector(".tarhib");
+let nomPrenomNavSide = document.querySelector(".nomPrenom");
+
+
+
+if(userInfo.sexe === "homme") {
+    spanTarhib.innerHTML = `mr ${userInfo.prenom}`;
+        spanTarhib.style.textTransform = "capitalize";
+    } else {
+        spanTarhib.innerHTML = `mrs ${userInfo.prenom}`;
+        spanTarhib.style.textTransform = "capitalize";
+    }
+    
+    
+if(userInfo.sexe === "homme") {
+    nomPrenomNavSide.innerHTML = `${userInfo.prenom} ${userInfo.nom}`;
+    nomPrenomNavSide.style.textTransform = "capitalize";
+} else {
+        document.querySelector(".profileImage").src="./photos/unknownWoman.png";
+        nomPrenomNavSide.innerHTML = `${userInfo.prenom} ${userInfo.nom}`;
+        nomPrenomNavSide.style.textTransform = "capitalize";
 }
 
 // icône de la barre de navigation

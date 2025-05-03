@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     myForm.addEventListener("submit", function(event) {
         event.preventDefault();
-        const myFormData = {
+        const myFormDataTeacher = {
             nom: myForm.nom.value,
             prenom: myForm.prenom.value,
             email: myForm.email.value,
@@ -13,20 +13,20 @@ document.addEventListener("DOMContentLoaded", function() {
             sexe: myForm.gender.value,
             motDePasse: myForm.password.value
         };
-        localStorage.setItem("teacherData", JSON.stringify(myFormData));
+        localStorage.setItem("teacherData", JSON.stringify(myFormDataTeacher));
         window.location.href = "examsPage.html";
         fetch("", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(myFormData)
+            body: JSON.stringify(myFormDataTeacher)
         })
         .then(response => response.json())
         .then(data => {
             console.log("Succès:", data);
+            localStorage.setItem("teacherData", JSON.stringify(myFormDataTeacher));
             window.location.href = "examsPage.html";
-            localStorage.setItem("teacherData", JSON.stringify(myFormData));
         })
         .catch((error) => {
             console.error("Erreur:", error);
@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
         if (parsedData.email === email && parsedData.motDePasse === password) {
             alert("Connexion réussie !");
-            localStorage.setItem("loginData", JSON.stringify({ email, password }));
+            localStorage.setItem("loginDataTeacher", JSON.stringify({ email, password }));
             window.location.href = "examsPage.html";
         } else {
             alert("Aucune correspondance trouvée. Veuillez vérifier l'email ou le mot de passe.");
