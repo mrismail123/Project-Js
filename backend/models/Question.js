@@ -1,31 +1,15 @@
 const mongoose = require("mongoose");
 
 const questionSchema = new mongoose.Schema({
-  examenId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Exam",
-    required: true
-  },
-  type: {
-    type: String,
-    enum: ["qcm", "directe"],
-    required: true
-  },
-  enonce: { type: String, required: true },
-  media: { type: String }, // chemin vers une image/vidéo/audio (optionnel)
-
-  // QCM spécifique
-  options: [String],
-  bonneReponse: [String], // pour QCM: tableau des bonnes réponses
-
-  // Directe spécifique
-  reponseText: { type: String }, // pour question directe
-  tolerance: { type: Number }, // en pourcentage (ex: 10)
-
-  duree: { type: Number, required: true }, // en secondes
-  note: { type: Number, required: true }
+  texte: { type: String, required: true }, // Le texte de la question
+  type: { type: String, enum: ["texte", "qcm"], default: "texte" }, // Le type de question : texte libre ou QCM
+  options: [{ type: String }], // Les choix possibles pour un QCM
+  bonneReponse: { type: String }, // La bonne réponse pour un QCM
+  note: { type: Number, default: 1 }, // La note attribuée à la question
+  duree: { type: Number, default: 60 }, // La durée allouée pour répondre (en secondes)
+  examId: { type: mongoose.Schema.Types.ObjectId, ref: "Exam", required: true } // L'identifiant de l'examen lié
 }, {
-  timestamps: true
+  timestamps: true // Ajoute automatiquement createdAt et updatedAt
 });
 
 module.exports = mongoose.model("Question", questionSchema);
