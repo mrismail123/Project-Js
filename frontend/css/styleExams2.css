@@ -1,0 +1,247 @@
+body {
+    color: white;
+    /* overflow: hidden; */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-box-sizing:border-box;
+}
+
+
+
+
+.navbar a {
+    color: white !important;
+}
+
+div.container-fluid i {
+    padding-right: 10px;
+    font-size:20px;
+}
+
+
+
+.sideBar {
+    display: none;
+    flex-direction: column;
+    width: fit-content;
+    background-color: rgb(33, 37, 41);
+    min-height: 100vh;
+    width: 100%;
+    padding: 10px;
+    transition: 0.5s;
+    transform: translate(-100%);
+}
+
+.sideBar .imageUser {
+    margin:30px 0;
+    text-align: center;
+    color: white;
+}
+
+.sideBar img {
+    max-width: 100%;
+}
+
+.sideBar .imageUser img {
+    width: 120px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+
+.section {
+    overflow: hidden;
+}
+
+div.studentIntroPage > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+} 
+
+
+.imageTextpPrincipal {
+    padding-top: 30px;
+}
+
+div.studentIntroPage > div.imageText {
+    padding-top: 100px;
+}
+
+@media (max-width:925px) {
+    div.studentIntroPage > div {
+        flex-direction: column;
+        text-align: center;
+    }
+    div.imageTextpPrincipal  div.text {
+        padding: 0px 20px;
+    }
+}
+
+div.studentIntroPage > div .image img {
+    max-width: 100%;
+    width: 800px;
+}
+
+.imageText .image {
+    opacity: 0 ;
+    transition: 1.5s;
+}
+
+.imageText.one .text ,
+.imageText.three .text {
+    transform: translateX(-150%);
+    opacity: 0.2s;
+    transition: 1.3s;
+}
+
+.imageText.two .text {
+    transform: translateX(150%);
+    opacity: 0.2s;
+    transition: 1.3s;
+}
+
+div.studentIntroPage .imageText > div.image {
+    display: inline-block;
+}
+
+div.studentIntroPage .imageText > div.image img {
+    display: block;
+    width: auto;
+    height: auto;
+}
+
+div.studentIntroPage .imageText > div,
+div.studentIntroPage .imageTextpPrincipal > div {
+    flex-basis: 45%;
+}
+
+div.studentIntroPage .imageText > div.text  ,
+div.studentIntroPage .imageTextpPrincipal > div.text {
+    line-height: 1.8;
+    font-size: 1.3rem;
+}
+
+@media (max-width:925px) {
+    .imageText > div.text {
+        padding: 0px 20px;
+    }
+    .imageText .image {
+        margin-top: 50px;
+    }
+}
+
+@media (max-width:525px) {
+    .imageText > div.text p,
+    .imageTextpPrincipal > div.text p {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width:367px){
+    .imageText > div.text p,
+    .imageTextpPrincipal > div.text p{
+        font-size: 0.8rem;
+    }
+}
+
+div.studentIntroPage .imageTextpPrincipal > div.text h2 {
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+div.studentIntroPage .imageTextpPrincipal > div.text h2::first-letter {
+    text-transform: capitalize;
+    font-size: 4rem;
+}
+
+div.studentIntroPage .imageTextpPrincipal > div.text button {
+    border: none;
+    background-color: dodgerblue;
+    color: white;
+    padding: 7px 25px;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+div.imageTextpPrincipal {
+    position: relative;
+    padding-bottom: 120px;
+}
+
+div.imageTextpPrincipal::before {
+    content: "";
+    position: absolute;
+    top: -55px;
+    left: 0px;
+    width: 100%;
+    height: calc(100% + 50px);
+    background-color: #eee;
+    z-index: -1;
+    transform: skewY(-4deg);
+    transform-origin: top left;
+}
+
+
+div.imageTextpPrincipal .image {
+    animation: upDown 3s ease-in-out  infinite alternate-reverse both;
+}
+
+@keyframes upDown {
+    from {
+        transform: translateY(10px);
+    }
+    to {
+        transform: translateY(-15px);
+    }
+}
+
+.studentIntroPage i {
+    position: absolute;
+    left: 50%;
+    top: calc(100% - 80px);
+    font-size: 2.8rem;
+    color: dodgerblue;
+    animation: downTwicePause 1.5s ease-in-out infinite;
+}
+
+@keyframes downTwicePause {
+    0%   { transform: translateY(0); }
+    20%  { transform: translateY(10px); }
+    40%  { transform: translateY(0); }
+    60%  { transform: translateY(10px); }
+    80%  { transform: translateY(0); }
+    100% { transform: translateY(0); }
+}
+
+@media (max-width:1286px){
+    .studentIntroPage i {
+        top: calc(100% - 150px);
+    }
+}
+
+@media (max-width:925px) {
+    .studentIntroPage i {
+        display: none !important;
+    }
+}
+
+
+
+.student-intro-footer {
+    text-align: center;
+    font-size: 0.95rem;
+    color: white;
+    font-weight: bold;
+    padding: 1.5rem 0;
+    margin-top: 100px;
+    background-color: rgb(17, 71, 126);
+    transition: 0.4s;
+}
+
+.student-intro-footer p {
+    margin-bottom: 0;
+}

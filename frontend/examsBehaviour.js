@@ -16,6 +16,8 @@ if(userInfo.sexe === "homme") {
 
 
 
+
+
 let spanTarhib = document.querySelector(".tarhib");
 let nomPrenomNavSide = document.querySelector(".nomPrenom");
 
@@ -109,6 +111,9 @@ mcqExam.addEventListener("click", () => {
     uploadStart.style.display = "none";
 });
 
+
+console.log(document.querySelector("form.examForm select"));
+
 let globalExamInformation = document.querySelector(".createExam .globalExamInformations");
 let myForm = document.querySelector(".globalExamInformations form");
 
@@ -123,9 +128,9 @@ myForm.addEventListener("submit", async (event) => {
 
     const examInfo = {
         title: document.querySelector("input[name='examName']").value,
-        groupDestination: document.querySelector("form textarea").value,
+        groupDestination: document.querySelector("form.examForm select").value,
     };
-
+    
     const uniqueLink = generateUniqueLink();
     let spanLink = document.querySelector("span.linkToExam");
     spanLink.innerHTML = uniqueLink;
@@ -339,6 +344,7 @@ examSettingForm.addEventListener("submit", (event) => {
     updateDynamicFields();
 });
 
+
 // Submit Exam button handler
 submitExamButton.addEventListener("click", () => {
     let examName = document.querySelector("input[name='examName']").value.trim();
@@ -346,7 +352,7 @@ submitExamButton.addEventListener("click", () => {
         alert("Please enter an exam name.");
         return;
     }
-    document.querySelector("input[name='examName']").value='';
+    // document.querySelector("input[name='examName']").value='';
 
     let questions = [];
     for (let i = 1; i <= 20; i++) {
@@ -368,7 +374,9 @@ submitExamButton.addEventListener("click", () => {
 
     let exam = {
         name: examName,
+        groupDestination : JSON.parse(localStorage.getItem("examInfo")).groupDestination,
         questions: questions
+
     };
 
     fetch("serverName", { // ajouter le server Ici @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
