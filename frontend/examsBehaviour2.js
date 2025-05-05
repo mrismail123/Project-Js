@@ -101,5 +101,10 @@ window.addEventListener("scroll" , ()=>{
     if(section4 < windowHeight - 100){
         document.querySelector(".imageText.two .text").style.cssText = "transform:translateX(0%);opacity:1;";
     }
-
 })
+
+let buttonGoToExamPass = document.querySelector("button.goToExamPass");
+
+buttonGoToExamPass.addEventListener("click", ()=> {
+    window.location.href="ToExamPass.html";
+});
