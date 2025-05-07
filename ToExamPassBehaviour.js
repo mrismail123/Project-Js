@@ -1,4 +1,3 @@
-
 let userInfo = JSON.parse(localStorage.getItem("studentData"));
 
 let nomPrenomNavSide = document.querySelector(".nomPrenom");
@@ -58,12 +57,16 @@ fetch("serverName", {
 function populateTable() {
     let tbody = document.querySelector("#examsTable tbody");
     tbody.innerHTML = "";
+    let studentId = userInfo.id || userInfo.nom;
     exams.forEach(exam => {
+        let scores = JSON.parse(localStorage.getItem(`scores_${exam.examId}_${studentId}`)) || [];
+        let bestScore = scores.length > 0 ? Math.max(...scores).toFixed(2) : "N/A";
         let tr = document.createElement("tr");
         tr.innerHTML = `
             <td data-label="Titre">${exam.name}</td>
             <td data-label="Lien">${exam.lienDeExamen}</td>
             <td data-label="Groupe">${exam.groupDestination}</td>
+            <td data-label="Meilleur score">${bestScore}</td>
             <td data-label="Actions">
                 <button onclick="startExam('${exam.examId}')">Commencer l'examen</button>
                 <button onclick="copyLink('${exam.lienDeExamen}')">Copier le lien</button>
@@ -105,12 +108,45 @@ function startExam(examId) {
             document.getElementById("examSection").style.display = "flex";
 
             let currentQuestionIndex = 0;
+            let totalScore = 0;
+            let totalPossibleScore = exam.questions.reduce((sum, q) => sum + parseInt(q.mark), 0);
 
             function loadQuestion(index) {
                 if (index >= exam.questions.length) {
+                    let percentage = (totalScore / totalPossibleScore) * 100;
                     document.getElementById("examSection").style.display = "none";
-                    document.querySelector(".container").style.display = "block";
-                    populateTable();
+                    document.getElementById("scoreSection").style.display = "flex";
+                    let scoreDisplay = document.getElementById("scoreDisplay");
+                    scoreDisplay.textContent = `${percentage.toFixed(2)} / 100`;
+                    scoreDisplay.classList.remove("animate-score");
+                    void scoreDisplay.offsetWidth; // Trigger reflow
+                    scoreDisplay.classList.add("animate-score");
+
+                    let studentId = userInfo.id || userInfo.nom;
+                    let scores = JSON.parse(localStorage.getItem(`scores_${examId}_${studentId}`)) || [];
+                    scores.push(percentage);
+                    localStorage.setItem(`scores_${examId}_${studentId}`, JSON.stringify(scores));
+
+                    fetch("serverName/saveScore", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({ examId, studentId, score: percentage })
+                    })
+                    .then(response => response.json())
+                    .then(data => console.log("Score envoyé:", data))
+                    .catch(error => console.error("Erreur lors de l'envoi du score:", error));
+
+                    document.getElementById("retakeExam").onclick = () => {
+                        document.getElementById("scoreSection").style.display = "none";
+                        startExam(examId);
+                    };
+                    document.getElementById("backToList").onclick = () => {
+                        document.getElementById("scoreSection").style.display = "none";
+                        document.querySelector(".container").style.display = "block";
+                        populateTable();
+                    };
                     return;
                 }
 
@@ -149,6 +185,37 @@ function startExam(examId) {
             }
 
             function submitAnswer(index) {
+                let question = exam.questions[index];
+                let studentAnswer;
+
+                if (question.Type === "DirectQuestion") {
+                    studentAnswer = document.getElementById("answerInput").value.trim();
+                } else if (question.Type === "QCM") {
+                    studentAnswer = document.getElementById("answerSelect").value;
+                }
+
+                let isCorrect = false;
+                if (question.Type === "QCM") {
+                    isCorrect = studentAnswer === question.correct_answer;
+                } else if (question.Type === "DirectQuestion") {
+                    let correctAnswer = question.correct_answer;
+                    let tolerance = parseInt(question.tolerance) || 0;
+                    let numCorrect = parseFloat(correctAnswer);
+                    let numStudent = parseFloat(studentAnswer);
+
+                    if (!isNaN(numCorrect) && !isNaN(numStudent) && tolerance > 0) {
+                        let diff = Math.abs(numStudent - numCorrect);
+                        let allowedDiff = (tolerance / 100) * numCorrect;
+                        isCorrect = diff <= allowedDiff;
+                    } else {
+                        isCorrect = studentAnswer.toLowerCase() === correctAnswer.toLowerCase();
+                    }
+                }
+
+                if (isCorrect) {
+                    totalScore += parseInt(question.mark);
+                }
+
                 currentQuestionIndex++;
                 loadQuestion(currentQuestionIndex);
             }
