@@ -63,24 +63,28 @@
                         <th>Titre</th>
                         <th>Lien</th>
                         <th>Groupe assigné</th>
+                        <th>Meilleur score</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <!-- Les examens seront ajoutés dynamiquement ici -->
-                    <tr>
-                        <td data-label="Title">Examen 1</td>
-                        <td data-label="Link">https://example.com/exam1</td>
-                        <td data-label="Group">Groupe A</td>
-                        <td data-label="Actions">
-                            <button onclick="startExam('1')">Commencer l'examen</button>
-                            <button onclick="copyLink('https://example.com/exam1')">Copier le lien</button>
-                        </td>
-                    </tr>
-                    <!-- D'autres lignes seront ajoutées dynamiquement -->
                 </tbody>
             </table>
         </div>
+    </div>
+    <div id="examSection" style="display: none;">
+        <h3 id="questionTitle"></h3>
+        <p id="questionText"></p>
+        <div id="questionContent"></div>
+        <div id="timer">Temps restant : <span id="timeLeft"></span> secondes</div>
+        <button id="submitAnswer">Soumettre</button>
+    </div>
+    <div id="scoreSection" style="display: none;">
+        <h2>Votre score</h2>
+        <p id="scoreDisplay"></p>
+        <button id="retakeExam">Passer l'examen à nouveau</button>
+        <button id="backToList">Retour à la liste des examens</button>
     </div>
 
     <script src="ToExamPassBehaviour.js"></script>

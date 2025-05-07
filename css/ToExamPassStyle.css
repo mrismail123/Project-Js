@@ -2,6 +2,7 @@ body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     margin: 0;
+    overflow-x: hidden;
 }
 
 .container {
@@ -50,7 +51,7 @@ button {
 }
 
 tr td:nth-child(4) {
-    display: flex;
+    /* display: flex; */
     align-items: center;
     gap: 5px;
 }
@@ -68,6 +69,152 @@ button:last-child {
     color: green;
 }
 
+/* Exam Section Styles */
+#examSection {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.95);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    overflow-y: auto;
+}
+
+#questionTitle {
+    font-size: 32px;
+    margin-bottom: 15px;
+    color: #2c3e50;
+    text-align: center;
+}
+
+#questionText {
+    font-size: 20px;
+    margin-bottom: 30px;
+    color: #34495e;
+    text-align: center;
+    max-width: 800px;
+}
+
+#questionContent {
+    margin-bottom: 30px;
+    width: 100%;
+    max-width: 600px;
+}
+
+#timer {
+    font-size: 18px;
+    color: #e74c3c;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+#submitAnswer {
+    padding: 12px 30px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    width: 600px;
+    max-width: 100%;
+}
+
+#submitAnswer:hover {
+    background-color: #2980b9;
+}
+
+#answerInput {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+#answerSelect {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+/* Score Section Styles */
+#scoreSection {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.95);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+#scoreSection h2 {
+    color: #2c3e50;
+    font-size: 36px;
+    margin-bottom: 30px;
+}
+
+#scoreDisplay {
+    font-size: 60px;
+    color: #27ae60;
+    margin: 20px 0;
+    font-weight: bold;
+    animation: scorePop 1.5s ease-out forwards;
+}
+
+@keyframes scorePop {
+    0% {
+        opacity: 0;
+        transform: scale(0.3) rotate(-10deg);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.1) rotate(5deg);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+#retakeExam, #backToList {
+    padding: 12px 30px;
+    margin: 15px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s, transform 0.2s;
+    width: 600px;
+    max-width: 100%;
+}
+
+#retakeExam:hover, #backToList:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+
 /* Responsive design for smaller screens */
 @media (max-width: 768px) {
     .container {
@@ -77,11 +224,11 @@ button:last-child {
 
     table {
         display: block;
-        overflow-x: hidden; /* Remove horizontal scrolling */
+        overflow-x: hidden;
     }
 
     thead {
-        display: none; /* Hide table headers on small screens */
+        display: none;
     }
 
     tr {
@@ -110,10 +257,11 @@ button:last-child {
         color: #333;
     }
 
-    td:nth-child(1)::before { content: "Title: "; }
-    td:nth-child(2)::before { content: "Link: "; }
-    td:nth-child(3)::before { content: "Group: "; }
+    td:nth-child(1)::before { content: "Titre: "; }
+    td:nth-child(2)::before { content: "Lien: "; }
+    td:nth-child(3)::before { content: "Groupe: "; }
     td:nth-child(4)::before { content: "Actions: "; }
+    td:nth-child(5)::before { content: "Meilleur score: "; }
 
     tr td:nth-child(4) {
         flex-direction: column;
@@ -124,6 +272,22 @@ button:last-child {
         width: 100%;
         margin-right: 0;
         margin-bottom: 5px;
+    }
+
+    #examSection, #scoreSection {
+        padding: 20px;
+    }
+
+    #questionTitle {
+        font-size: 24px;
+    }
+
+    #questionText {
+        font-size: 18px;
+    }
+
+    #scoreDisplay {
+        font-size: 48px;
     }
 }
 
@@ -137,4 +301,22 @@ button:last-child {
         font-size: 12px;
         padding: 6px;
     }
+
+    #questionTitle {
+        font-size: 20px;
+    }
+
+    #questionText {
+        font-size: 16px;
+    }
+
+    #scoreDisplay {
+        font-size: 36px;
+    }
+
+    #retakeExam, #backToList {
+        width: 80%;
+        padding: 10px;
+    }
 }
+

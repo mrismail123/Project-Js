@@ -26,19 +26,19 @@ buttonCommencer.addEventListener("click", () => {
     buttonCommencer.style.display = "none";
 });
 
-// Changer l'image de la landing page à intervalles réguliers
-let landing = document.querySelector(".landing");
-let myImages = ["./photos/landing1", "./photos/landing3", "./photos/landing4"];
-let index = 0;
+// // Changer l'image de la landing page à intervalles réguliers
+// let landing = document.querySelector(".landing");
+// let myImages = ["./photos/landing1", "./photos/landing4", "./photos/landing3"];
+// let index = 0;
 
-// Fonction pour changer l'image de fond toutes les 3 secondes
-function changeLanding() {
-    landing.style.backgroundImage = `URL(${myImages[index]}.jpg)`;
-    index = (index + 1) % myImages.length;  // Passer à l'image suivante, en boucle
-    setTimeout(changeLanding, 3000);  // Appeler la fonction toutes les 3 secondes
-};
+// // Fonction pour changer l'image de fond toutes les 3 secondes
+// function changeLanding() {
+//     landing.style.backgroundImage = `URL(${myImages[index]}.jpg)`;
+//     index = (index + 1) % myImages.length;  // Passer à l'image suivante, en boucle
+//     setTimeout(changeLanding, 3000);  // Appeler la fonction toutes les 3 secondes
+// };
 
-changeLanding();  // Lancer le changement d'images
+// changeLanding();  // Lancer le changement d'images
 
 // Essayer une animation spéciale lors du défilement de la page
 let images = document.querySelectorAll(".card .image");
@@ -74,8 +74,8 @@ window.addEventListener("scroll", function () {
     const myTextAbout = textAbout.getBoundingClientRect().top;
     const myAboutImage = aboutImage.getBoundingClientRect().top;
     if (myTextAbout < windowHeight - 100) {
-        textAbout.style.transform = "translateX(0%)";
-        aboutImage.style.transform = "translateX(0%)";
+        textAbout.style.cssText = "transform:translateX(0%);opacity:1";
+        aboutImage.style.cssText = "transform:translateX(0%);opacity:1";
     }
 
     // Animer les témoignages et les compétences lorsqu'ils sont visibles
@@ -91,6 +91,6 @@ window.addEventListener("scroll", function () {
     const formTop = contactForm.getBoundingClientRect().top;
     if (imageTop < windowHeight - 100) {
         contactImage.style.transform = "translateX(0%)";
-        contactForm.style.transform = "translateX(0%)";
+        contactForm.style.cssText = "transform:translateX(0%);opacity:1";
     }
 });

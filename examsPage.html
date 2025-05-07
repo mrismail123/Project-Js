@@ -44,7 +44,7 @@
         </ul>
         <div class="d-flex align-items-center gap-4 image">
           <h3 style="text-transform: uppercase;color: rgb(255, 255, 255);">phantom school</h3>
-          <a href="index.html">
+          <a href="/index.html">
             <img style="max-width: 100%;width: 90px;background-color: white;border-radius: 10px;" src="./photos/l.png" alt="">
           </a>
         </div>
@@ -97,7 +97,18 @@
           <label for="examTitle">*Titre</label><br>
           <input type="text" name="examName" placeholder="ex. Examen Javascript" required autofocus minlength="5" maxlength="35"><br><br>
           <label for="examDescription">*Public ciblé</label><br>
-          <textarea name="examDescription" id="examDescription" placeholder="ex., 2ᵉ année MIP, Groupe A" required></textarea><br><br>
+          <select name="examDescription" id="examDescription" required>
+            <option value="" disabled selected>entrer la public ciblé</option>
+            <option value="smiS1">smi s1</option>
+            <option value="smiS2">smi s2</option>
+            <option value="smiS3">smi s3</option>
+            <option value="smiS4">smi s4</option>
+            <option value="smiS5">smi s5</option>
+            <option value="smiS6">smi s6</option>
+
+          </select>
+
+          <!-- <textarea name="examDescription" id="examDescription" placeholder="ex., 2ᵉ année MIP, Groupe A" required></textarea><br><br> -->
           <button type="submit">Soumettre l'examen</button>
           <p>Lien vers l'examen : <span class="linkToExam">pas encore généré</span></p>
         </form>
