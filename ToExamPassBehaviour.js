@@ -1,3 +1,4 @@
+
 let userInfo = JSON.parse(localStorage.getItem("studentData"));
 
 let nomPrenomNavSide = document.querySelector(".nomPrenom");
@@ -63,7 +64,6 @@ function populateTable() {
             <td data-label="Titre">${exam.name}</td>
             <td data-label="Lien">${exam.lienDeExamen}</td>
             <td data-label="Groupe">${exam.groupDestination}</td>
-            <td data-label="Meilleur score">N/A</td>
             <td data-label="Actions">
                 <button onclick="startExam('${exam.examId}')">Commencer l'examen</button>
                 <button onclick="copyLink('${exam.lienDeExamen}')">Copier le lien</button>
@@ -100,6 +100,60 @@ function startExam(examId) {
             .then(response => response.json())
             .then(data => console.log("Géolocalisation envoyée:", data))
             .catch(error => console.error("Erreur lors de l'envoi de la géolocalisation:", error));
+
+            document.querySelector(".container").style.display = "none";
+            document.getElementById("examSection").style.display = "flex";
+
+            let currentQuestionIndex = 0;
+
+            function loadQuestion(index) {
+                if (index >= exam.questions.length) {
+                    document.getElementById("examSection").style.display = "none";
+                    document.querySelector(".container").style.display = "block";
+                    populateTable();
+                    return;
+                }
+
+                let question = exam.questions[index];
+                document.getElementById("questionTitle").textContent = `Question ${index + 1}`;
+                document.getElementById("questionText").textContent = question.Question;
+
+                let content = '';
+                if (question.Type === "DirectQuestion") {
+                    content = `<input type="text" id="answerInput" placeholder="Entrez votre réponse">`;
+                } else if (question.Type === "QCM") {
+                    content = `<select id="answerSelect">`;
+                    if (question.choice_1) content += `<option value="choice1">${question.choice_1}</option>`;
+                    if (question.choice_2) content += `<option value="choice2">${question.choice_2}</option>`;
+                    if (question.choice_3) content += `<option value="choice3">${question.choice_3}</option>`;
+                    if (question.choice_4) content += `<option value="choice4">${question.choice_4}</option>`;
+                    content += `</select>`;
+                }
+                document.getElementById("questionContent").innerHTML = content;
+
+                let timeLeft = parseInt(question.duration);
+                document.getElementById("timeLeft").textContent = timeLeft;
+                let timerInterval = setInterval(() => {
+                    timeLeft--;
+                    document.getElementById("timeLeft").textContent = timeLeft;
+                    if (timeLeft <= 0) {
+                        clearInterval(timerInterval);
+                        submitAnswer(index);
+                    }
+                }, 1000);
+
+                document.getElementById("submitAnswer").onclick = () => {
+                    clearInterval(timerInterval);
+                    submitAnswer(index);
+                };
+            }
+
+            function submitAnswer(index) {
+                currentQuestionIndex++;
+                loadQuestion(currentQuestionIndex);
+            }
+
+            loadQuestion(0);
         },
         (error) => {
             if (error.code === error.PERMISSION_DENIED) {

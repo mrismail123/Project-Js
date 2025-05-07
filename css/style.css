@@ -371,10 +371,6 @@ a {
     margin-bottom: 50px;
 }
 
-.services .services-content {
-    /* padding-top: 100px; */
-}
-
 .services .services-content .card {
     display: flex;
     align-items: center;
