@@ -1,11 +1,108 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styleExams2.css">
+    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
     <title>Document</title>
 </head>
 <body>
-    
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+        <div class="container-fluid">
+          <i class="true nav fa-solid fa-bars text-white"></i>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Basculer la navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active home" aria-current="page" href="examsPage2.html">Accueil</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Lien</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                  aria-expanded="false">
+                  Menu déroulant
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="#">Action</a></li>
+                  <li><a class="dropdown-item" href="#">Autre action</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="#">Autre contenu ici</a></li>
+                </ul>
+              </li>
+            </ul>
+            <div class="d-flex align-items-center gap-4 image">
+              <h3 style="text-transform: uppercase;color: rgb(255, 255, 255);">phantom school</h3>
+              <a href="index.html">
+                <img style="max-width: 100%;width: 90px;background-color: white;border-radius: 10px;" src="./photos/l.png" alt="">
+              </a>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div class="sideBar">
+        <div class="imageUser">
+          <img class="profileImage" src="./photos/unkownStudentMal.jpg" alt="">
+          <h2 class="nomPrenom">inconnu</h2>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="studentIntroPage">
+          <div class="imageTextpPrincipal">
+              <div class="text">
+                  <h2 class="userWelcome">bienvenue inconnu</h2>
+                  <p>Bienvenue sur votre espace étudiant ! Ici, vous pouvez commencer vos examens, suivre vos résultats et accéder aux ressources nécessaires pour réussir.</p>
+                  <button class="goToExamPass">commencer</button>
+              </div>
+              <div class="image">
+                  <img src="./photos/studentLanding1.png" alt="">
+              </div>
+          </div>
+          <i class="downSection fa-solid fa-angles-down"></i>
+          <div class="imageText one">
+              <div class="text">
+                  <h1>nous sommes les meilleurs</h1>
+                  <p>Notre plateforme est conçue pour offrir une expérience d'examen fluide, intuitive et sécurisée pour tous les étudiants.</p>
+                  <p>Nous vous accompagnons à chaque étape, de l'inscription à la validation finale de vos examens.</p>
+                </div>
+                <div class="image">
+                  <img src="./photos/studentLanding2.jpg" alt="">
+                </div>
+          </div>
+          <hr>
+          <div class="imageText two">
+                <div class="image">
+                  <img src="./photos/studentLanding3.jpg" alt="">
+                </div>
+                <div class="text">
+                  <h1>nous sommes les meilleurs</h1>
+                  <p>Grâce à nos outils modernes, vous pouvez passer vos examens en toute confiance, avec un suivi en temps réel et une correction rapide.</p>
+                  <p>Préparez-vous à réussir avec nos conseils, ressources pédagogiques et simulations d'examen disponibles à tout moment.</p>
+                </div>
+          </div>
+          <hr>
+          <div class="imageText three">
+                <div class="text">
+                  <h1>nous sommes les meilleurs</h1>
+                  <p>Rejoignez notre communauté d'apprenants motivés, prêts à relever les défis scolaires dans un environnement dynamique.</p>
+                  <p>Votre réussite est notre priorité. Ensemble, construisons votre avenir dès maintenant.</p>
+                </div>
+                <div class="image">
+                  <img class="lastImage" style="width: 1000px;" src="./photos/studentLanding4.jpg" alt="">
+                </div>
+            </div>
+            </div>
+            <footer class="student-intro-footer">
+              <p>Préparez-vous à commencer votre examen</p>
+            </footer>
+
+      <script src="examsBehaviour2.js"></script>
 </body>
 </html>

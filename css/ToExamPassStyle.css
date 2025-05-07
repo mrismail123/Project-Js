@@ -1,0 +1,140 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+}
+
+.container {
+    max-width: 100%;
+    margin: 20px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #333;
+}
+
+.table-wrapper {
+    width: 100%;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: dodgerblue;
+    color: white;
+}
+
+button {
+    border: none;
+    color: white;
+    border-radius: 5px;
+    margin-right: 5px;
+    padding: 10px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    width: 100%;
+    font-size: 14px;
+}
+
+tr td:nth-child(4) {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+button:first-child {
+    background-color: rgb(31, 32, 32);
+}
+
+button:last-child {
+    background-color: red;
+}
+
+#geoInfo {
+    margin-bottom: 10px;
+    color: green;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+        margin: 10px auto;
+    }
+
+    table {
+        display: block;
+        overflow-x: hidden; /* Remove horizontal scrolling */
+    }
+
+    thead {
+        display: none; /* Hide table headers on small screens */
+    }
+
+    tr {
+        display: block;
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 10px;
+        background: #fff;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    td {
+        display: block;
+        text-align: right;
+        padding: 6px;
+        border: none;
+        position: relative;
+    }
+
+    td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        float: left;
+        margin-right: 10px;
+        color: #333;
+    }
+
+    td:nth-child(1)::before { content: "Title: "; }
+    td:nth-child(2)::before { content: "Link: "; }
+    td:nth-child(3)::before { content: "Group: "; }
+    td:nth-child(4)::before { content: "Actions: "; }
+
+    tr td:nth-child(4) {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    button {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 5px;
+    }
+}
+
+@media (max-width: 480px) {
+    td {
+        font-size: 12px;
+        padding: 4px;
+    }
+
+    button {
+        font-size: 12px;
+        padding: 6px;
+    }
+}
