@@ -1,31 +1,31 @@
-const mongoose = require("mongoose");
+// Import des modules nécessaires
+const mongoose = require('mongoose');
 
+// Définition du modèle Question
 const questionSchema = new mongoose.Schema({
-  examenId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Exam",
-    required: true
-  },
-  type: {
-    type: String,
-    enum: ["qcm", "directe"],
-    required: true
-  },
-  enonce: { type: String, required: true },
-  media: { type: String }, // chemin vers une image/vidéo/audio (optionnel)
-
-  // QCM spécifique
-  options: [String],
-  bonneReponse: [String], // pour QCM: tableau des bonnes réponses
-
-  // Directe spécifique
-  reponseText: { type: String }, // pour question directe
-  tolerance: { type: Number }, // en pourcentage (ex: 10)
-
-  duree: { type: Number, required: true }, // en secondes
-  note: { type: Number, required: true }
+    texte: {
+        type: String,
+        required: true
+    },
+    reponses: [{
+        type: String,
+        required: true
+    }],
+    bonneReponse: {
+        type: Number,  // L'indice de la bonne réponse dans le tableau des réponses
+        required: true
+    },
+    duree: {
+        type: Number,  // Durée en secondes
+        required: true
+    },
+    note: {
+        type: Number,  // La note du question
+        required: true
+    }
 }, {
-  timestamps: true
+    timestamps: true // Enregistre les dates de création et de modification
 });
 
-module.exports = mongoose.model("Question", questionSchema);
+// Exportation du modèle
+module.exports = mongoose.model('Question', questionSchema);
