@@ -1,15 +1,15 @@
 const jwt = require('jsonwebtoken');
 
-// Génère un token JWT pour un utilisateur donné
-const générerToken = (utilisateur) => {
+// Fonction pour générer le JWT
+const genererToken = (utilisateur) => {
   return jwt.sign(
     {
-      id: utilisateur._id,
-      role: utilisateur.role
+      id: utilisateur._id,       // ID de l'utilisateur
+      role: utilisateur.role     // Rôle de l'utilisateur
     },
-    process.env.JWT_SECRET,
-    { expiresIn: '1d' }
+    process.env.JWT_SECRET,       // Clé secrète de l'environnement
+    { expiresIn: '1h' }           // Expiration du token après 1 heure
   );
 };
 
-module.exports = générerToken;
+module.exports = { genererToken };
