@@ -1,10 +1,15 @@
 const jwt = require('jsonwebtoken');
 
-// Générer un token JWT valable 7 jours
-const generateToken = (userId) => {
-  return jwt.sign({ id: userId }, process.env.JWT_SECRET, {
-    expiresIn: '7d'
-  });
+// Génère un token JWT pour un utilisateur donné
+const générerToken = (utilisateur) => {
+  return jwt.sign(
+    {
+      id: utilisateur._id,
+      role: utilisateur.role
+    },
+    process.env.JWT_SECRET,
+    { expiresIn: '1d' }
+  );
 };
 
-module.exports = generateToken;
+module.exports = générerToken;

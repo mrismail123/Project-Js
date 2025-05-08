@@ -1,46 +1,44 @@
 const User = require('../models/User');
-const bcrypt = require('bcrypt');
-const generateToken = require('../utils/tokenGenerator');
+const générerToken = require('../utils/tokenGenerator');
 
-// Contrôleur d'inscription
-exports.inscription = async (req, res) => {
-  const { nom, email, motDePasse, role } = req.body;
-
+// Contrôleur pour la connexion
+exports.login = async (req, res) => {
   try {
-    // Vérifier si l'utilisateur existe déjà
-    const utilisateurExistant = await User.findOne({ email });
-    if (utilisateurExistant) {
-      return res.status(400).json({ message: "Cet email est déjà utilisé." });
+    const { email, motDePasse } = req.body;
+
+    // Vérifier les champs
+    if (!email || !motDePasse) {
+      return res.status(400).json({ message: 'Veuillez fournir email et mot de passe.' });
     }
 
-    // Hasher le mot de passe
-    const motDePasseCrypte = await bcrypt.hash(motDePasse, 10);
+    // Rechercher l'utilisateur
+    const utilisateur = await User.findOne({ email });
+    if (!utilisateur) {
+      return res.status(401).json({ message: 'Email ou mot de passe incorrect.' });
+    }
 
-    // Créer un nouvel utilisateur
-    const nouvelUtilisateur = new User({
-      nom,
-      email,
-      motDePasse: motDePasseCrypte,
-      role
-    });
+    // Comparaison du mot de passe
+    const motDePasseValide = await utilisateur.comparePassword(motDePasse);
+    if (!motDePasseValide) {
+      return res.status(401).json({ message: 'Email ou mot de passe incorrect.' });
+    }
 
-    await nouvelUtilisateur.save();
+    // Générer le token JWT
+    const token = générerToken(utilisateur);
 
-    // Générer un token JWT
-    const token = generateToken(nouvelUtilisateur._id);
-
-    res.status(201).json({
-      message: "Utilisateur inscrit avec succès",
+    // Réponse avec le token
+    res.status(200).json({
+      message: 'Connexion réussie.',
+      token,
       utilisateur: {
-        id: nouvelUtilisateur._id,
-        nom: nouvelUtilisateur.nom,
-        email: nouvelUtilisateur.email,
-        role: nouvelUtilisateur.role
-      },
-      token
+        id: utilisateur._id,
+        nom: utilisateur.nom,
+        email: utilisateur.email,
+        role: utilisateur.role
+      }
     });
-
-  } catch (error) {
-    res.status(500).json({ message: "Erreur serveur lors de l'inscription." });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Erreur serveur lors de la connexion.' });
   }
 };

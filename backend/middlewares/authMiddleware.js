@@ -1,22 +1,23 @@
-const jwt = require("jsonwebtoken");
-require("dotenv").config();
+const jwt = require('jsonwebtoken');
 
-exports.verifierToken = (req, res, next) => {
+// Vérifie la validité du token JWT
+const verifierToken = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+
+  // Vérifie si le token est présent
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ message: 'Token manquant ou invalide.' });
+  }
+
+  const token = authHeader.split(' ')[1];
+
   try {
-    const token =
-      req.cookies.token ||
-      (req.headers.authorization && req.headers.authorization.split(" ")[1]);
-
-    if (!token) {
-      return res.status(401).json({ message: "Accès refusé. Aucun token fourni." });
-    }
-
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;
-
+    req.utilisateur = decoded;
     next();
-  } catch (erreur) {
-    console.error("Erreur d'authentification :", erreur);
-    res.status(403).json({ message: "Token invalide ou expiré." });
+  } catch (err) {
+    return res.status(403).json({ message: 'Token invalide ou expiré.' });
   }
 };
+
+module.exports = verifierToken;
