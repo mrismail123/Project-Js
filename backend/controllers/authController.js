@@ -1,90 +1,46 @@
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const User = require("../models/User");
-require("dotenv").config();
+const User = require('../models/User');
+const bcrypt = require('bcrypt');
+const generateToken = require('../utils/tokenGenerator');
 
 // Contrôleur d'inscription
-exports.register = async (req, res) => {
+exports.inscription = async (req, res) => {
+  const { nom, email, motDePasse, role } = req.body;
+
   try {
-    const { nom, prenom, email, password, type } = req.body;
-
-    // Vérification des champs requis
-    if (!nom || !prenom || !email || !password || !type) {
-      return res.status(400).json({ message: "Tous les champs sont obligatoires." });
-    }
-
     // Vérifier si l'utilisateur existe déjà
-    const userExist = await User.findOne({ email });
-    if (userExist) {
-      return res.status(409).json({ message: "Email déjà utilisé." });
+    const utilisateurExistant = await User.findOne({ email });
+    if (utilisateurExistant) {
+      return res.status(400).json({ message: "Cet email est déjà utilisé." });
     }
 
     // Hasher le mot de passe
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const motDePasseCrypte = await bcrypt.hash(motDePasse, 10);
 
-    // Créer et sauvegarder l'utilisateur
-    const newUser = new User({
+    // Créer un nouvel utilisateur
+    const nouvelUtilisateur = new User({
       nom,
-      prenom,
       email,
-      password: hashedPassword,
-      type,
+      motDePasse: motDePasseCrypte,
+      role
     });
 
-    await newUser.save();
+    await nouvelUtilisateur.save();
 
-    res.status(201).json({ message: "Utilisateur inscrit avec succès." });
-  } catch (error) {
-    console.error("Erreur lors de l'inscription :", error);
-    res.status(500).json({ message: "Erreur interne du serveur." });
-  }
-};
+    // Générer un token JWT
+    const token = generateToken(nouvelUtilisateur._id);
 
-// Contrôleur de connexion
-exports.login = async (req, res) => {
-  try {
-    const { email, password } = req.body;
-
-    // Vérification des champs requis
-    if (!email || !password) {
-      return res.status(400).json({ message: "Email et mot de passe requis." });
-    }
-
-    // Vérifier si l'utilisateur existe
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(404).json({ message: "Utilisateur non trouvé." });
-    }
-
-    // Comparaison du mot de passe
-    const match = await bcrypt.compare(password, user.password);
-    if (!match) {
-      return res.status(401).json({ message: "Mot de passe incorrect." });
-    }
-
-    // Génération du token JWT
-    const token = jwt.sign(
-      { id: user._id, type: user.type },
-      process.env.JWT_SECRET,
-      { expiresIn: "1d" }
-    );
-
-    // Envoi du token via cookie (optionnel)
-    res.cookie("token", token, {
-      httpOnly: true,
-      maxAge: 86400000, // 1 jour
-    });
-
-    // Réponse sans le mot de passe
-    const { password: _, ...userData } = user.toObject();
-    res.status(200).json({
-      message: "Connexion réussie.",
-      token, // à utiliser côté frontend
-      user: userData,
+    res.status(201).json({
+      message: "Utilisateur inscrit avec succès",
+      utilisateur: {
+        id: nouvelUtilisateur._id,
+        nom: nouvelUtilisateur.nom,
+        email: nouvelUtilisateur.email,
+        role: nouvelUtilisateur.role
+      },
+      token
     });
 
   } catch (error) {
-    console.error("Erreur lors de la connexion :", error);
-    res.status(500).json({ message: "Erreur interne du serveur." });
+    res.status(500).json({ message: "Erreur serveur lors de l'inscription." });
   }
 };
