@@ -1,4 +1,3 @@
-// models/User.js
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
@@ -21,8 +20,8 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ['enseignant', 'etudiant'],
-    default: 'etudiant'
+    enum: ['admin', 'enseignant', 'etudiant', 'user'],
+    default: 'etudiant' // Valeur par défaut
   },
   dateInscription: {
     type: Date,
@@ -30,11 +29,16 @@ const userSchema = new mongoose.Schema({
   }
 });
 
-// Middleware pour chiffrer le mot de passe avant sauvegarde
+// Middleware pour chiffrer le mot de passe avant la sauvegarde
 userSchema.pre('save', async function (next) {
   if (!this.isModified('motDePasse')) return next();
-  this.motDePasse = await bcrypt.hash(this.motDePasse, 10);
-  next();
+
+  try {
+    this.motDePasse = await bcrypt.hash(this.motDePasse, 10);
+    next();
+  } catch (err) {
+    next(err);
+  }
 });
 
 // Méthode pour comparer les mots de passe

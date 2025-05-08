@@ -2,13 +2,15 @@ const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const authRoutes = require('./routes/authRoutes');
-const examRoutes = require('./routes/examRoutes'); // Ajouter les routes pour les examens
+
+const authRoutes = require('./routes/authRoutes'); // Routes pour l'authentification
+const examRoutes = require('./routes/examRoutes'); // Routes pour les examens
 
 dotenv.config(); // Charger les variables d'environnement depuis .env
+
 const app = express();
 
-// Middleware pour accepter les requêtes JSON
+// Middleware pour parser les données JSON et activer CORS
 app.use(cors());
 app.use(express.json());
 
@@ -16,9 +18,9 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 
 // Routes des examens
-app.use('/api/examens', examRoutes); // Ajouter la route pour les examens
+app.use('/api/examens', examRoutes);
 
-// Connexion à MongoDB
+// Connexion à la base de données MongoDB
 const PORT = process.env.PORT || 5000;
 
 mongoose.connect(process.env.MONGO_URI, {
@@ -36,6 +38,8 @@ mongoose.connect(process.env.MONGO_URI, {
   });
 
 module.exports = app;
+
+
 
 
 
