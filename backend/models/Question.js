@@ -15,12 +15,11 @@ const questionSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  choix: [String], // Liste des options pour QCM
+  choix: [String], // Pour QCM
 
-  bonneReponse: [String], // Pour QCM: tableau de valeurs correctes
-
-  reponseText: String, // Pour les questions directes
-  tolerance: Number, // En pourcentage pour les réponses directes
+  bonneReponse: [String], // Pour QCM (tableau)
+  reponseText: String,     // Pour question directe
+  tolerance: Number,       // Tolérance (%) pour question directe
 
   note: {
     type: Number,

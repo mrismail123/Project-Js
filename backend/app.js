@@ -3,14 +3,16 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const mongoose = require('mongoose');
 
+// Charger les variables d'environnement depuis le fichier .env
+dotenv.config();
+
 // Importation des routes
-const authRoutes = require('./routes/authRoutes');      // Authentification
-const examRoutes = require('./routes/examRoutes');      // Examens
-const questionRoutes = require('./routes/questionRoutes'); // Questions
-const resultRoutes = require('./routes/resultRoutes');  // Résultats
+const authRoutes = require('./routes/authRoutes');         // Authentification
+const examRoutes = require('./routes/examRoutes');         // Examens
+const questionRoutes = require('./routes/questionRoutes'); // Questions (QCM + directes)
+const resultRoutes = require('./routes/resultRoutes');     // Résultats
 
-dotenv.config(); // Charger les variables d'environnement depuis .env
-
+// Création de l'application Express
 const app = express();
 
 // Middlewares globaux
@@ -20,8 +22,8 @@ app.use(express.json());
 // Utilisation des routes
 app.use('/api/auth', authRoutes);
 app.use('/api/examens', examRoutes);
-app.use('/api/questions', questionRoutes);  // Ajout de la route pour les questions
-app.use('/api/resultats', resultRoutes);    // Ajout de la route pour les résultats
+app.use('/api/questions', questionRoutes);   // Route des questions (avec tolérance)
+app.use('/api/resultats', resultRoutes);
 
 // Connexion à MongoDB
 const PORT = process.env.PORT || 5000;
@@ -40,9 +42,11 @@ mongoose.connect(process.env.MONGO_URI, {
     console.error('Erreur MongoDB :', err.message);
   });
 
+// Gestion des erreurs générales
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Quelque chose s\'est mal passé!');
+});
+
+// Export de l'app (facultatif pour les tests)
 module.exports = app;
-
-
-
-
-

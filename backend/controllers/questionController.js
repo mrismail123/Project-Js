@@ -4,7 +4,16 @@ const Question = require('../models/Question');
 // Fonction pour ajouter une nouvelle question
 exports.ajouterQuestion = async (req, res) => {
     try {
-        const { examenId, type, titre, choix, bonneReponse, reponseText, tolerance, note } = req.body;
+        const {
+            examenId,
+            type,
+            titre,
+            choix,
+            bonneReponse,
+            reponseText,
+            tolerance,
+            note
+        } = req.body;
 
         const question = new Question({
             examenId,

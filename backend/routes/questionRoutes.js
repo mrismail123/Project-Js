@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const questionController = require("../controllers/questionController");
 
-// Ajouter une question
+// Créer une nouvelle question
 router.post("/", questionController.ajouterQuestion);
 
 // Récupérer toutes les questions
