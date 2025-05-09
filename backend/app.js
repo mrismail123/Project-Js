@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const authRoutes = require('./routes/authRoutes');      // Authentification
 const examRoutes = require('./routes/examRoutes');      // Examens
 const questionRoutes = require('./routes/questionRoutes'); // Questions
+const resultRoutes = require('./routes/resultRoutes');  // Résultats
 
 dotenv.config(); // Charger les variables d'environnement depuis .env
 
@@ -19,7 +20,8 @@ app.use(express.json());
 // Utilisation des routes
 app.use('/api/auth', authRoutes);
 app.use('/api/examens', examRoutes);
-app.use('/api/questions', questionRoutes);  // ==> Ici tu ajoutes la route des questions
+app.use('/api/questions', questionRoutes);  // Ajout de la route pour les questions
+app.use('/api/resultats', resultRoutes);    // Ajout de la route pour les résultats
 
 // Connexion à MongoDB
 const PORT = process.env.PORT || 5000;
@@ -39,7 +41,6 @@ mongoose.connect(process.env.MONGO_URI, {
   });
 
 module.exports = app;
-
 
 
 
