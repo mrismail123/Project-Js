@@ -1,29 +1,26 @@
-// Chargement des variables d'environnement
 require('dotenv').config();
-
-// Importations nécessaires
 const mongoose = require('mongoose');
 const app = require('./app'); // Import de l'application Express
 
-// Configuration du port (priorité à .env ou 3000 par défaut)
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
-// Vérification de la présence de l'URI MongoDB
+// Vérification de la présence de MONGO_URI
 if (!process.env.MONGO_URI) {
-  console.error('❌ Variable MONGO_URI manquante dans .env');
+  console.error('Variable MONGO_URI manquante dans .env');
   process.exit(1);
 }
 
-// Connexion à MongoDB (version moderne sans options obsolètes)
+// Connexion à MongoDB
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
-    console.log('✅ Connecté à MongoDB avec succès');
+    console.log('Connecté à MongoDB avec succès');
     
-    // Démarrage du serveur Express
+    // Démarrer le serveur Express uniquement après la connexion à MongoDB
     app.listen(PORT, () => {
-      console.log(`🚀 Serveur lancé sur http://localhost:${PORT}`);
+      console.log(`Serveur lancé sur http://localhost:${PORT}`);
     });
   })
-  .catch(err => {
-    console.error('❌ Erreur de connexion MongoDB:', err.message);
+  .catch((err) => {
+    console.error('Erreur de connexion MongoDB:', err.message);
   });
+
