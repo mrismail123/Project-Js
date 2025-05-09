@@ -11,8 +11,14 @@ const resultSchema = new mongoose.Schema({
     ref: "Exam",
     required: true
   },
-  score: { type: Number, required: true },
-  dateSoumission: { type: Date, default: Date.now },
+  score: {
+    type: Number,
+    required: true
+  },
+  dateSoumission: {
+    type: Date,
+    default: Date.now
+  },
   geoLocation: {
     lat: Number,
     lon: Number

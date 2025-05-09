@@ -24,7 +24,7 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/examens', examRoutes);
 app.use('/api/questions', questionRoutes);       // Route des questions (avec tolérance)
-app.use('/api/resultats', resultRoutes);
+app.use('/api/resultats', resultRoutes);         // Route des résultats
 app.use('/api/geolocalisation', geoRoutes);      // Route de géolocalisation
 
 // Connexion à MongoDB
