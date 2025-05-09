@@ -1,12 +1,12 @@
 const Exam = require('../models/Exam');
 const Question = require('../models/Question');
 
-// Fonction pour créer un examen
+// Créer un nouvel examen
 exports.createExam = async (req, res) => {
   try {
     const { titre, description, questions, durée } = req.body;
 
-    // Vérifier si les questions existent dans la base de données
+    // Vérifier si toutes les questions existent
     const validQuestions = await Question.find({ '_id': { $in: questions } });
 
     if (validQuestions.length !== questions.length) {
@@ -15,20 +15,18 @@ exports.createExam = async (req, res) => {
       });
     }
 
-    // Création d'un nouvel examen avec les questions validées
     const newExam = new Exam({
       titre,
       description,
-      questions, // tableau d'ID de questions
-      durée,
+      questions,
+      durée
     });
 
-    // Sauvegarde de l'examen dans la base de données
     await newExam.save();
 
     res.status(201).json({
-      message: 'L\'examen a été créé avec succès!',
-      exam: newExam,
+      message: 'Examen créé avec succès.',
+      exam: newExam
     });
   } catch (error) {
     console.error('Erreur création examen :', error);
@@ -36,13 +34,31 @@ exports.createExam = async (req, res) => {
   }
 };
 
-// Récupérer tous les examens avec les questions associées
+// Récupérer tous les examens avec les questions
 exports.getExams = async (req, res) => {
   try {
-    const exams = await Exam.find().populate('questions'); // Populer les questions dans l'examen
+    const exams = await Exam.find().populate('questions');
     res.status(200).json(exams);
   } catch (error) {
     console.error('Erreur récupération examens :', error);
     res.status(500).json({ message: 'Erreur serveur', error });
+  }
+};
+
+// Récupérer les questions d’un examen avec timer
+exports.getQuestionsAvecTimer = async (req, res) => {
+  try {
+    const examen = await Exam.findById(req.params.examenId).populate('questions');
+    if (!examen) {
+      return res.status(404).json({ message: 'Examen non trouvé' });
+    }
+
+    // Retourner durée totale et questions
+    res.status(200).json({
+      dureeParQuestion: examen.durée / examen.questions.length, // durée par question en secondes
+      questions: examen.questions
+    });
+  } catch (err) {
+    res.status(400).json({ message: 'Erreur lors de la récupération des questions', error: err.message });
   }
 };

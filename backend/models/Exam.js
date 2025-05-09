@@ -1,5 +1,3 @@
-// models/Exam.js
-
 const mongoose = require('mongoose');
 
 // Définition du schéma pour un examen
@@ -18,7 +16,11 @@ const examSchema = new mongoose.Schema({
   }],
   durée: {
     type: Number,
-    required: true, // La durée de l'examen en secondes
+    required: true, // La durée totale de l'examen en secondes
+  },
+  dureeParQuestion: {
+    type: Number, // Durée par question en secondes (optionnel)
+    default: null
   },
   date_creation: {
     type: Date,
