@@ -15,7 +15,7 @@ Backend Admins :
 
 👨‍💻 BARRAK NOUHAILA  — Numéro d'appogée : 20032811
 
-👨‍💻 NOUHAILA EL GHBALI — Numéro d'appogée : 22046245
+👨‍💻 El ghbali Nehaila — Numéro d'appogée : 22046245
 
 🔗 Lien d'accès au projet
 
