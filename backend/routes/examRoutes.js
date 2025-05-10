@@ -1,11 +1,24 @@
 const express = require('express');
 const router = express.Router();
-const { createExam, getExams } = require('../controllers/examController');
+const {
+  creerExamen,           // Fonction pour créer un examen
+  listeExamens,          // Fonction pour lister les examens
+  getQuestionsAvecTimer, // Fonction pour récupérer les questions avec un timer
+  deleteExam             // Fonction pour supprimer un examen
+} = require('../controllers/examController');
 
-// Route pour créer un examen
-router.post('/create', createExam);
+const verifierToken = require('../middleware/verifierToken');  // Middleware pour vérifier le token JWT
 
-// Route pour récupérer tous les examens
-router.get('/', getExams);
+// Créer un examen (enseignant connecté)
+router.post('/create', verifierToken, creerExamen);
+
+// Récupérer tous les examens de l’enseignant
+router.get('/', verifierToken, listeExamens);
+
+// Récupérer les questions d’un examen avec timer
+router.get('/:examenId/questions-timer', verifierToken, getQuestionsAvecTimer);
+
+// Supprimer un examen spécifique
+router.delete('/:id', verifierToken, deleteExam);
 
 module.exports = router;

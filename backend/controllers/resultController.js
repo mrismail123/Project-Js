@@ -1,27 +1,35 @@
-const Resultat = require("../models/Result");
+const Result = require("../models/Result");
 const Question = require("../models/Question");
 const { calculerScore } = require("../utils/scoreCalculator");
 
+// Enregistrement du résultat avec score et géolocalisation
 exports.enregistrerResultat = async (req, res) => {
   try {
     const { examenId, reponses } = req.body;
 
+    // Vérification des données obligatoires
     if (!examenId || !reponses) {
       return res.status(400).json({ message: "Examen et réponses requis." });
     }
 
+    // Récupération des questions liées à l'examen
     const questions = await Question.find({ examenId });
+
+    // Calcul du score à partir des réponses
     const score = calculerScore(questions, reponses);
 
-    const nouveauResultat = new Resultat({
-      etudiantId: req.user.id,
-      examenId,
-      score,
-      geoLocation: req.geoLocation // <-- ici on enregistre les coordonnées
+    // Création du résultat
+    const nouveauResultat = new Result({
+      etudiantId: req.user.id, // ID de l’étudiant connecté
+      examenId: examenId,
+      score: score,
+      geoLocation: req.geoLocation || { lat: null, lon: null } // si géolocalisation dispo
     });
 
+    // Sauvegarde
     await nouveauResultat.save();
 
+    // Réponse
     res.status(201).json({
       message: "Résultat enregistré avec succès.",
       score,

@@ -2,10 +2,12 @@ const express = require('express');
 const router = express.Router();
 const { inscription, connexion } = require('../controllers/authController');
 
-// Route pour l'inscription
+// Routes officielles
 router.post('/inscription', inscription);
-
-// Route pour la connexion
 router.post('/connexion', connexion);
+
+// Alias pour compatibilité
+router.post('/register', inscription);
+router.post('/login', connexion);
 
 module.exports = router;

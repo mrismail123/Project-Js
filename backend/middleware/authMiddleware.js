@@ -1,7 +1,8 @@
 const jwt = require('jsonwebtoken');
+const User = require('../models/User');
 
-// Middleware pour vérifier la validité du token JWT
-const verifierToken = (req, res, next) => {
+// Middleware pour vérifier la validité du token JWT et l'utilisateur dans la base de données
+const verifierToken = async (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   // Vérifie si le header Authorization est présent et commence par 'Bearer '
@@ -16,8 +17,14 @@ const verifierToken = (req, res, next) => {
     // Vérification du token avec la clé secrète
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
+    // Recherche de l'utilisateur dans la base de données avec l'ID du token
+    const user = await User.findById(decoded.id);
+    if (!user) {
+      return res.status(401).json({ message: 'Utilisateur non trouvé' });
+    }
+
     // Ajout des informations de l'utilisateur à la requête
-    req.user = decoded;
+    req.user = user;
 
     // Passage au middleware suivant
     next();

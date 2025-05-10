@@ -1,4 +1,4 @@
-// Calcule le score total d’un étudiant selon ses réponses
+// Fonction principale pour calculer le score
 exports.calculerScore = (questions, reponsesEtudiant) => {
     let score = 0;
   
@@ -11,16 +11,19 @@ exports.calculerScore = (questions, reponsesEtudiant) => {
         const reponsesCorrectes = question.bonneReponse.sort().join(",");
         const reponsesEtudiant = (reponse.valeurs || []).sort().join(",");
         if (reponsesCorrectes === reponsesEtudiant) {
-          score += question.note;
+          score += question.note; // Ajoute la note de la question
         }
       } else if (question.type === "directe") {
+        // Vérifier la réponse texte directe en prenant en compte la tolérance
         const attendu = question.reponseText.trim().toLowerCase();
         const donné = (reponse.valeur || "").trim().toLowerCase();
   
+        // Calculer la distance entre la réponse donnée et la réponse attendue
         const tolerance = question.tolerance || 0;
         const distance = levenshteinDistance(attendu, donné);
         const pourcentageErreur = (distance / attendu.length) * 100;
   
+        // Ajouter la note si la distance d'erreur est sous le seuil de tolérance
         if (pourcentageErreur <= tolerance) {
           score += question.note;
         }
@@ -30,10 +33,10 @@ exports.calculerScore = (questions, reponsesEtudiant) => {
     return score;
   };
   
-  // Fonction utilitaire pour calculer la distance de Levenshtein
+  // Fonction utilitaire pour calculer la distance de Levenshtein (similitude des chaînes de caractères)
   function levenshteinDistance(a, b) {
     const matrix = Array.from({ length: a.length + 1 }, () =>
-      Array(b.length + 1).fill(0)
+        Array(b.length + 1).fill(0)
     );
   
     for (let i = 0; i <= a.length; i++) matrix[i][0] = i;

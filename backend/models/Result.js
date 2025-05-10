@@ -11,8 +11,14 @@ const resultSchema = new mongoose.Schema({
     ref: "Exam",
     required: true
   },
-  score: { type: Number, required: true },
-  dateSoumission: { type: Date, default: Date.now },
+  score: {
+    type: Number,
+    required: true
+  },
+  dateSoumission: {
+    type: Date,
+    default: Date.now
+  },
   geoLocation: {
     lat: Number,
     lon: Number
@@ -21,4 +27,4 @@ const resultSchema = new mongoose.Schema({
   timestamps: true
 });
 
-module.exports = mongoose.model("Result", resultSchema);
+module.exports = mongoose.model('Result', resultSchema, 'results');
