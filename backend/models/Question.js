@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const questionSchema = new mongoose.Schema({
   examenId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Exam',
+    ref: 'Examen',
     required: true
   },
   type: {
@@ -11,34 +11,44 @@ const questionSchema = new mongoose.Schema({
     enum: ['qcm', 'directe'],
     required: true
   },
-  titre: {
+  enonce: {
     type: String,
     required: true
   },
+  // Médias facultatifs
+  media: {
+    image: { type: String, default: null },
+    audio: { type: String, default: null },
+    video: { type: String, default: null }
+  },
   // Pour les QCM
-  choix: {
+  options: {
     type: [String],
     default: []
   },
-  bonneReponse: {
-    type: String,
-    default: ''
+  bonnesReponses: {
+    type: [String],
+    default: []
   },
   // Pour les questions directes
-  reponseText: {
+  reponseDirecte: {
     type: String,
     default: ''
   },
   tolerance: {
     type: Number,
-    default: 0 // pour les questions directes avec tolérance (en pourcentage ou marge d’erreur)
+    default: 0
   },
   note: {
     type: Number,
     default: 1
+  },
+  duree: {
+    type: Number, // durée en secondes
+    required: true
   }
 }, {
-  timestamps: true // Ajoute createdAt et updatedAt automatiquement
+  timestamps: true
 });
 
-module.exports = mongoose.model('Question', questionSchema);
+module.exports = mongoose.model('Question', questionSchema, 'questions');

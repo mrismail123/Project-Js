@@ -1,35 +1,45 @@
 const mongoose = require('mongoose');
 
-// Définition du schéma pour un examen
-const examSchema = new mongoose.Schema({
+const examenSchema = new mongoose.Schema({
   titre: {
     type: String,
-    required: true, // Le titre est obligatoire
+    required: true
   },
   description: {
     type: String,
-    required: true, // La description est obligatoire
+    required: true
+  },
+  publicCible: {
+    type: String,
+    required: true // ex: "2e année MIP, S4, groupe A"
+  },
+  lienAcces: {
+    type: String,
+    unique: true,
+    required: true // Lien généré automatiquement
+  },
+  enseignant: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Utilisateur',
+    required: true
   },
   questions: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Question', // Référence au modèle Question
+    ref: 'Question'
   }],
   durée: {
-    type: Number,
-    required: true, // La durée totale de l'examen en secondes
+    type: Number, // Durée totale de l'examen en secondes
+    default: null
   },
   dureeParQuestion: {
-    type: Number, // Durée par question en secondes (optionnel)
+    type: Number,
     default: null
   },
   date_creation: {
     type: Date,
-    default: Date.now, // La date de création de l'examen
-  },
+    default: Date.now
+  }
 });
 
-// Création du modèle Exam basé sur le schéma défini
-const Exam = mongoose.model('Exam', examSchema);
-
-// Exportation du modèle pour pouvoir l'utiliser dans d'autres fichiers
-module.exports = Exam;
+// Export du modèle
+module.exports = mongoose.model('Exam', examenSchema, 'Exam');

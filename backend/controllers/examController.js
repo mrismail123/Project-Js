@@ -1,64 +1,94 @@
 const Exam = require('../models/Exam');
 const Question = require('../models/Question');
 
-// Créer un nouvel examen
-exports.createExam = async (req, res) => {
+// Ajouter un examen (Créer un examen)
+exports.creerExamen = async (req, res) => {
   try {
-    const { titre, description, questions, durée } = req.body;
+    const { title, description, questions } = req.body;
 
-    // Vérifier si toutes les questions existent
-    const validQuestions = await Question.find({ '_id': { $in: questions } });
-
-    if (validQuestions.length !== questions.length) {
-      return res.status(400).json({
-        message: 'Une ou plusieurs questions n\'existent pas dans la base de données.',
-      });
+    // Vérifier les données requises
+    if (!title || !description) {
+      return res.status(400).json({ message: 'Le titre et la description sont requis.' });
     }
 
+    // Créer un nouvel examen
     const newExam = new Exam({
-      titre,
+      title,
       description,
-      questions,
-      durée
+      questions, // Liste des questions (ici on suppose que l'ID des questions a déjà été défini)
     });
 
+    // Sauvegarder l'examen dans la base de données
     await newExam.save();
 
+    // Réponse de succès
     res.status(201).json({
       message: 'Examen créé avec succès.',
-      exam: newExam
+      exam: newExam,
     });
-  } catch (error) {
-    console.error('Erreur création examen :', error);
-    res.status(500).json({ message: 'Erreur serveur', error });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Erreur serveur lors de la création de l\'examen.' });
   }
 };
 
-// Récupérer tous les examens avec les questions
-exports.getExams = async (req, res) => {
+// Récupérer tous les examens
+exports.listeExamens = async (req, res) => {
   try {
-    const exams = await Exam.find().populate('questions');
+    const exams = await Exam.find(); // Récupérer tous les examens
     res.status(200).json(exams);
-  } catch (error) {
-    console.error('Erreur récupération examens :', error);
-    res.status(500).json({ message: 'Erreur serveur', error });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Erreur serveur lors de la récupération des examens.' });
   }
 };
 
 // Récupérer les questions d’un examen avec timer
 exports.getQuestionsAvecTimer = async (req, res) => {
   try {
-    const examen = await Exam.findById(req.params.examenId).populate('questions');
-    if (!examen) {
-      return res.status(404).json({ message: 'Examen non trouvé' });
+    const { examenId } = req.params;
+
+    // Récupérer l'examen par son ID
+    const exam = await Exam.findById(examenId).populate('questions'); // Assurez-vous que le champ 'questions' est bien une référence à des questions
+
+    if (!exam) {
+      return res.status(404).json({ message: 'Examen introuvable.' });
     }
 
-    // Retourner durée totale et questions
+    // Récupérer les questions avec un timer
+    const questionsAvecTimer = exam.questions.map(question => ({
+      ...question._doc,
+      timer: 30, // Exemple de timer, peut être ajusté selon la logique de votre application
+    }));
+
     res.status(200).json({
-      dureeParQuestion: examen.durée / examen.questions.length, // durée par question en secondes
-      questions: examen.questions
+      exam: exam.title,
+      questions: questionsAvecTimer,
     });
   } catch (err) {
-    res.status(400).json({ message: 'Erreur lors de la récupération des questions', error: err.message });
+    console.error(err);
+    res.status(500).json({ message: 'Erreur serveur lors de la récupération des questions avec timer.' });
+  }
+};
+
+// Supprimer un examen
+exports.deleteExam = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Vérifier si l'examen existe
+    const exam = await Exam.findById(id);
+    if (!exam) {
+      return res.status(404).json({ message: 'Examen introuvable.' });
+    }
+
+    // Supprimer l'examen
+    await exam.remove();
+
+    // Réponse de succès
+    res.status(200).json({ message: 'Examen supprimé avec succès.' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Erreur serveur lors de la suppression de l\'examen.' });
   }
 };
