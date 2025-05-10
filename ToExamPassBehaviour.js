@@ -33,7 +33,7 @@ for (let key in localStorage) {
     }
 }
 
-fetch("serverName", {
+fetch("http://localhost:5000/api/auth/register", {
     method: "GET",
     headers: {
         "Content-Type": "application/json",
@@ -93,7 +93,7 @@ function startExam(examId) {
                 timestamp: Date.now()
             }));
             document.getElementById("geoInfo").textContent = `Votre position : ${latitude}, ${longitude}`;
-            fetch("serverName/saveGeolocation", {
+            fetch("http://localhost:5000/api/auth/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -127,7 +127,7 @@ function startExam(examId) {
                     scores.push(percentage);
                     localStorage.setItem(`scores_${examId}_${studentId}`, JSON.stringify(scores));
 
-                    fetch("serverName/saveScore", {
+                    fetch("http://localhost:5000/api/auth/register", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",

@@ -1,4 +1,5 @@
 
+
 // Sélectionner les éléments du DOM
 let textLanding = document.querySelector(".landing .text");
 let buttonDivFirst = document.querySelector(".landing .button");
